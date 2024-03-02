@@ -3,7 +3,6 @@ class Level1 extends Phaser.Scene {
         super('Level1');
         this.backgroundScrolling = true;
         this.allowPlayerMovement = true;
-
     }
 
     init() {
@@ -26,6 +25,8 @@ class Level1 extends Phaser.Scene {
     create() {
 
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'runnerback').setOrigin(0, 0);
+
+        this.startTimer(); 
 
         // Add the kid sprite and set its initial position
         this.kidskate = this.physics.add.sprite(100, 300, 'kidskate').setOrigin(-1.75, 0.5);
@@ -64,6 +65,14 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
     }
 
+    // New method to start the timer
+    startTimer() {
+        // Wait for 15 seconds and then transition to the next scene
+        setTimeout(() => {
+            this.scene.start('SceneStart2'); // Replace 'NextScene' with the actual key of your next scene
+        }, 5000); // 15 seconds in milliseconds
+    } 
+
     // New method to handle game reset
     resetGame() {
         // Reset player and grandma positions
@@ -80,6 +89,9 @@ class Level1 extends Phaser.Scene {
         // Reset flags and variables
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
+
+        // Start the timer for 15 seconds
+        this.startTimer();
     }
 
     update() {
