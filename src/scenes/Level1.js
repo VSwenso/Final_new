@@ -9,8 +9,6 @@ class Level1 extends Phaser.Scene {
 
     preload() {
 
-        //Load Sprite Atlas
-        this.load.atlas('fish', './assets/realpoonfish2.png', 'sprites.json')
         
         //Load background
         this.load.image('runnerback', './assets/runnerback.png')
