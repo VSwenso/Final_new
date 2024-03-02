@@ -91,7 +91,7 @@ class Level1 extends Phaser.Scene {
         this.backgroundScrolling = true;
 
         // Start the timer for 15 seconds
-        this.startTimer();
+        //this.startTimer();
     }
 
     update() {
