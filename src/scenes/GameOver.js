@@ -49,7 +49,7 @@ class GameOver extends Phaser.Scene {
 
         let startSound = this.sound.add('start', { volume: 1 });
 
-        this.input.keyboard.on('keydown-SPACE', function () {
+        this.input.keyboard.on('keydown-R', function () {
             // Transition to the next scene
             startSound.play()
             this.scene.start('menuScene'); // Replace 'NextScene' with the key of the scene you want to transition to

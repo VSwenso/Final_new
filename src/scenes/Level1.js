@@ -7,6 +7,7 @@ class Level1 extends Phaser.Scene {
 
     init() {
         this.PLAYER_VELOCITY = 350;
+        this.gameOver = false
     }
 
     preload() {
@@ -65,13 +66,24 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
     }
 
+    // // New method to start the timer
+    // startTimer() {
+    //     // Wait for 15 seconds and then transition to the next scene
+    //     setTimeout(() => {
+    //         this.scene.start('SceneStart2'); // Replace 'NextScene' with the actual key of your next scene
+    //     }, 5000); // 15 seconds in milliseconds
+    // }
+
     // New method to start the timer
     startTimer() {
-        // Wait for 15 seconds and then transition to the next scene
+        // Check if the gameover condition is met
         setTimeout(() => {
-            this.scene.start('SceneStart2'); // Replace 'NextScene' with the actual key of your next scene
-        }, 5000); // 15 seconds in milliseconds
-    } 
+            if (!this.gameOver) {
+                this.scene.start('SceneStart2'); // Replace 'SceneStart2' with the actual key of your next scene
+            }
+            }, 5000); // 15 seconds in milliseconds
+    }
+
 
     // New method to handle game reset
     resetGame() {
@@ -139,6 +151,7 @@ class Level1 extends Phaser.Scene {
         this.kidskate.setVisible(false);
 
         this.allowPlayerMovement = false;
+        this.gameOver = true;
 
         // Check if the animation with the key 'collisionGrandma' exists
         if (!this.anims.exists('collisionGrandma')) {

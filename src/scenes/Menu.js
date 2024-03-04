@@ -57,20 +57,21 @@ preload() {
         // Set up keyboard input for space bar
         this.input.keyboard.on('keydown-SPACE', function () {
             // Transition to the next scene
-            startSound.play()
+            //startSound.play()
             this.scene.start('SceneStart1'); // Replace 'NextScene' with the key of the scene you want to transition to
         }, this); 
 
         
-        // Check if music is not already playing, then start it
-        if (!this.musicPlaying) {
-            let music = this.sound.add('music', { loop: true, volume: 0.25 });
-            music.play();
-            this.musicPlaying = true;
-        }
+    //     // Check if music is not already playing, then start it
+    //     //if (!this.musicPlaying) {
+    //         //let music = this.sound.add('music', { loop: true, volume: 0.25 });
+    //         //music.play();
+    //         this.musicPlaying = true;
+    //     }
     }
 
     update() {
+        //reset
 
     } 
 }
