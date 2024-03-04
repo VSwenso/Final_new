@@ -41,11 +41,18 @@ class Level1 extends Phaser.Scene {
         // Set the kid sprite to collide with the world bounds
         this.kidskate.setCollideWorldBounds(true);
 
+        // Customize the size of the physics body
+        this.kidskate.body.setSize(25, 30); // Adjust the width and height as needed
+
         // Add the grandma sprite and set its initial position
         this.grandma = this.add.sprite(100, 300, 'allsprites').setOrigin(0.25, 0.5);
 
         // Enable phsyics for the grandma sprite
         this.physics.world.enable(this.grandma);
+
+        // Set the offset to align the collision box better with the sprite
+        this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
+        this.grandma.body.setOffset(60, 18);
 
         // Animation for the grandma sprite
         this.anims.create({
