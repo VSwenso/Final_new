@@ -3,6 +3,11 @@ class Level1 extends Phaser.Scene {
         super('Level1');
         this.backgroundScrolling = true;
         this.allowPlayerMovement = true;
+
+        this.allowedArea = {
+            x: { min: 0, max: 800 }, // Adjust these values based on your allowed area
+            y: { min: 250 , max: 455  }  // Adjust these values based on your allowed area
+        };
     }
 
     init() {
@@ -73,14 +78,6 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
     }
 
-    // // New method to start the timer
-    // startTimer() {
-    //     // Wait for 15 seconds and then transition to the next scene
-    //     setTimeout(() => {
-    //         this.scene.start('SceneStart2'); // Replace 'NextScene' with the actual key of your next scene
-    //     }, 5000); // 15 seconds in milliseconds
-    // }
-
     // New method to start the timer
     startTimer() {
         // Check if the gameover condition is met
@@ -135,6 +132,20 @@ class Level1 extends Phaser.Scene {
             } else {
                 this.kidskate.setVelocityY(0);
             }
+
+            // Check if the kid is outside the allowed area on the X-axis
+            if (this.kidskate.x < this.allowedArea.x.min) {
+                this.kidskate.x = this.allowedArea.x.min;
+            } else if (this.kidskate.x > this.allowedArea.x.max) {
+                this.kidskate.x = this.allowedArea.x.max;
+            }
+
+            // Check if the kid is outside the allowed area on the Y-axis
+            if (this.kidskate.y < this.allowedArea.y.min) {
+                this.kidskate.y = this.allowedArea.y.min;
+            } else if (this.kidskate.y > this.allowedArea.y.max) {
+                this.kidskate.y = this.allowedArea.y.max;
+            }
         } else {
             // If player movement is not allowed, set velocity to zero
             this.kidskate.setVelocity(0, 0);
@@ -143,11 +154,12 @@ class Level1 extends Phaser.Scene {
         // Update grandma position to follow kidskate on the same Y-axis
         this.grandma.y = this.kidskate.y;
 
-         // Continue scrolling the background only if background scrolling is allowed
-            if (this.backgroundScrolling) {
-                this.runnerback.tilePositionX += 4; // Adjust the scrolling speed as needed
-            }
+        // Continue scrolling the background only if background scrolling is allowed
+        if (this.backgroundScrolling) {
+            this.runnerback.tilePositionX += 4; // Adjust the scrolling speed as needed
+        }
     }
+
 
     handleCollision() {
         // Stop the existing animations for both kidskate and grandma

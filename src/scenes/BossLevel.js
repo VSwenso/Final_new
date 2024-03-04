@@ -133,11 +133,6 @@ class BossLevel extends Phaser.Scene {
 
         // Update grandma position to follow kidskate on the same Y-axis
         this.grandma.y = this.kidskate.y;
-
-        //  // Continue scrolling the background only if background scrolling is allowed
-        //     if (this.backgroundScrolling) {
-        //         this.bossback.tilePositionX += 4; // Adjust the scrolling speed as needed
-        //     }
     }
 
     handleCollision() {
