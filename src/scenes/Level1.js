@@ -5,7 +5,7 @@ class Level1 extends Phaser.Scene {
         this.allowPlayerMovement = true;
 
         this.allowedArea = {
-            x: { min: 0, max: 800 }, // Adjust these values based on your allowed area
+            x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
             y: { min: 250 , max: 455  }  // Adjust these values based on your allowed area
         };
     }
