@@ -8,6 +8,7 @@ class Level1 extends Phaser.Scene {
             x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
             y: { min: 250 , max: 455  }  // Adjust these values based on your allowed area
         };
+        this.timer = null; // Add this line to initialize the timer property
     }
 
     init() {
@@ -94,14 +95,13 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.kidskate, this.obstaclesGroup, this.handleObstacleCollision, null, this);
     }
 
-    // New method to start the timer
     startTimer() {
         // Check if the gameover condition is met
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
             if (!this.gameOver) {
                 this.scene.start('SceneStart2'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-            }, 10000); // 15 seconds in milliseconds
+        }, 10000); // 10 seconds in milliseconds
     }
 
 
@@ -122,10 +122,7 @@ class Level1 extends Phaser.Scene {
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
 
-        clearTimeout(this.timer);
-
-        // Start the timer for 15 seconds
-        //this.startTimer();
+        clearTimeout(this.timer); // Clear the timer using the stored timeout ID
     }
 
     spawnObstacle() {
