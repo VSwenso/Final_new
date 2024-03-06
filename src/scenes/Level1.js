@@ -20,6 +20,8 @@ class Level1 extends Phaser.Scene {
         this.load.image('runnerback', './assets/runnerback.png');
         // Load kid
         this.load.image('kidskate', './assets/KIDskateboard.png');
+        //Load Obstacles
+        this.load.image('tempobstacle', './assets/tempobstacle.png')
 
         //Load Spritesheets
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
@@ -76,6 +78,20 @@ class Level1 extends Phaser.Scene {
        
         // Add collision event
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
+
+        // Create a group for obstacles
+        this.obstaclesGroup = this.physics.add.group();
+
+        // Start spawning obstacles at a regular interval
+        this.spawnObstacleTimer = this.time.addEvent({
+            delay: 2000, // Adjust the delay as needed
+            callback: this.spawnObstacle,
+            callbackScope: this,
+            loop: true,
+        });
+
+        // Add collision event between kidskate and tempobstacle
+        this.physics.add.collider(this.kidskate, this.obstaclesGroup, this.handleObstacleCollision, null, this);
     }
 
     // New method to start the timer
@@ -85,7 +101,7 @@ class Level1 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('SceneStart2'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-            }, 5000); // 15 seconds in milliseconds
+            }, 10000); // 15 seconds in milliseconds
     }
 
 
@@ -106,9 +122,20 @@ class Level1 extends Phaser.Scene {
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
 
+        clearTimeout(this.timer);
+
         // Start the timer for 15 seconds
         //this.startTimer();
     }
+
+    spawnObstacle() {
+        const x = this.allowedArea.x.max;
+        const y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max);
+    
+        const obstacle = this.obstaclesGroup.create(x, y, 'tempobstacle');
+        obstacle.setScale(0.1);
+        obstacle.setVelocityX(-this.PLAYER_VELOCITY); // Adjust the velocity as needed
+    }    
 
     update() {
         // Check if player movement is allowed
@@ -158,8 +185,13 @@ class Level1 extends Phaser.Scene {
         if (this.backgroundScrolling) {
             this.runnerback.tilePositionX += 4; // Adjust the scrolling speed as needed
         }
-    }
 
+        // Check if it's time to spawn a new obstacle
+        const spawnInterval = Phaser.Math.Between(1000, 5000); // Set the interval as needed
+        if (Phaser.Time.TimerEvent.SECOND * this.time.now % spawnInterval === 0) {
+            this.spawnObstacle();
+        }
+    }
 
     handleCollision() {
         // Stop the existing animations for both kidskate and grandma
@@ -199,5 +231,45 @@ class Level1 extends Phaser.Scene {
             // Transition to the GameOver scene
             this.scene.start('GameOver');
         });
+    }
+
+    handleObstacleCollision() {
+        // Stop the existing animations for both kidskate and grandma
+        //this.kidskate.anims.stop();
+        this.grandma.anims.stop();
+
+        // Hide the kidskate sprite
+        //this.kidskate.setVisible(false);
+
+        this.allowPlayerMovement = false;
+        this.gameOver = true;
+
+        // // Check if the animation with the key 'collisionGrandma' exists
+        // if (!this.anims.exists('collisionGrandma')) {
+        //     // Create a new animation for grandma after collision
+        //     this.anims.create({
+        //         key: 'collisionGrandma',
+        //         frames: this.anims.generateFrameNumbers('allsprites', { start: 6, end: 7 }),
+        //         frameRate: 5,
+        //         repeat: 0, // Play the animation only once
+        //     });
+        // }
+
+        // Stop the Background from scrolling
+        this.backgroundScrolling = false;
+
+        // Play the new animation for grandma
+        //this.grandma.anims.play('collisionGrandma');
+
+        // After the collision animation is done, transition to the GameOver scene
+        //this.grandma.once('animationcomplete', () => {
+
+            // Reset the game state
+        this.resetGame();
+
+
+            // Transition to the GameOver scene
+        this.scene.start('GameOver');
+        //});
     }
 }  
