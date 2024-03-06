@@ -241,17 +241,6 @@ class Level1 extends Phaser.Scene {
         this.allowPlayerMovement = false;
         this.gameOver = true;
 
-        // // Check if the animation with the key 'collisionGrandma' exists
-        // if (!this.anims.exists('collisionGrandma')) {
-        //     // Create a new animation for grandma after collision
-        //     this.anims.create({
-        //         key: 'collisionGrandma',
-        //         frames: this.anims.generateFrameNumbers('allsprites', { start: 6, end: 7 }),
-        //         frameRate: 5,
-        //         repeat: 0, // Play the animation only once
-        //     });
-        // }
-
         // Stop the Background from scrolling
         this.backgroundScrolling = false;
 

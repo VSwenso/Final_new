@@ -37,7 +37,7 @@ class GameOver extends Phaser.Scene {
                 bottom: 10,
             },
         };
-        this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Press SpaceBar to Play again!', playAgainTextConfig)
+        this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Press [R] to Play again!', playAgainTextConfig)
             .setOrigin(0.5)
             .setDepth(1);
 
