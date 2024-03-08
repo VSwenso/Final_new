@@ -80,7 +80,7 @@ class Level2 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('BossStart'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-            }, 5000); // 15 seconds in milliseconds
+            }, 1000); // 15 seconds in milliseconds
     }
 
     // New method to handle game reset

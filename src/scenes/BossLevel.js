@@ -1,7 +1,7 @@
 class BossLevel extends Phaser.Scene {
     constructor() {
         super('BossLevel');
-        this.backgroundScrolling = true;
+        //this.backgroundScrolling = true;
         this.allowPlayerMovement = true;
 
         this.allowedArea = {
@@ -18,12 +18,13 @@ class BossLevel extends Phaser.Scene {
     preload() {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
-        // Load kid
-        this.load.image('kidskate', './assets/KIDskateboard.png');
-        //Load Obstacles
-        this.load.image('tempobstacle', './assets/tempobstacle.png')
 
         //Load Spritesheets
+        this.load.spritesheet('bosskid', './assets/bosskid.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
             frameWidth: 75,
             frameHeight: 80  
@@ -32,20 +33,21 @@ class BossLevel extends Phaser.Scene {
 
     create() {
 
-        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
+    this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
 
-     // Add the kid sprite and set its initial position
-     this.kidskate = this.physics.add.sprite(100, 300, 'kidskate').setOrigin(-1.75, 0.5);
-     this.kidskate.setScale(1.75);
-     this.physics.world.enable(this.kidskate);
-     this.kidskate.setCollideWorldBounds(true);
-     this.kidskate.body.setSize(25, 30); // Adjust the width and height as needed
- 
+
+    // Add the bosskid sprite and set its initial position
+    this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
+    this.bosskid.setScale(3.5);
+    this.physics.world.enable(this.bosskid);
+    this.bosskid.setCollideWorldBounds(true);
+    this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
+
      // Add the grandma sprite and set its initial position on the right side
-     this.grandma = this.physics.add.sprite(700, 300, 'allsprites').setOrigin(0.25, 0.5);
+     this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
      this.physics.world.enable(this.grandma);
      this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
-     this.grandma.body.setOffset(60, 18);
+     this.grandma.body.setOffset(50, 20);
  
      // Animation and scaling for the grandma sprite
      this.anims.create({
@@ -54,24 +56,40 @@ class BossLevel extends Phaser.Scene {
          frameRate: 5,
          repeat: -1,
      });
+
+    // Add animation for bosskid moving left
+    this.anims.create({
+        key: 'bosskid-left',
+        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+        frameRate: 15 ,
+        repeat: -1,
+    });
+
+    // Add animation for bosskid moving right
+    this.anims.create({
+        key: 'bosskid-right',
+        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+        frameRate: 15,
+        repeat: -1,
+    });
  
      this.grandma.anims.play('move-play');
-     this.grandma.setScale(-1.5, 2); // Set the X-axis scale to -2
+     this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
      this.grandma.setVelocityX(-50); // Set initial velocity towards the kid sprite
  
      // Add collision event
-     this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
+     this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
  }
 
 
     // New method to handle game reset
     resetGame() {
         // Reset player and grandma positions
-        this.kidskate.setPosition(100, 300);
+        this.bosskid.setPosition(100, 300);
         this.grandma.setPosition(100, 300);
 
         // Show the kidskate sprite
-        this.kidskate.setVisible(true);
+        this.bosskid.setVisible(true);
 
         // Reset player and grandma animations
         this.grandma.anims.play('move-play');
@@ -90,33 +108,30 @@ class BossLevel extends Phaser.Scene {
     
             // Update player movement based on arrow keys
             if (cursors.left.isDown) {
-                this.kidskate.setVelocityX(-this.PLAYER_VELOCITY);
+                this.bosskid.setVelocityX(-this.PLAYER_VELOCITY);
+                this.bosskid.anims.play('bosskid-left', true); // Play left animation
+                this.bosskid.setFlipX(true); // Flip the sprite horizontally
             } else if (cursors.right.isDown) {
-                this.kidskate.setVelocityX(this.PLAYER_VELOCITY);
+                this.bosskid.setVelocityX(this.PLAYER_VELOCITY);
+                this.bosskid.anims.play('bosskid-right', true); // Play right animation
+                this.bosskid.setFlipX(false); // Reset the sprite orientation
             } else {
-                this.kidskate.setVelocityX(0);
-            }
-    
-            if (cursors.up.isDown) {
-                this.kidskate.setVelocityY(-this.PLAYER_VELOCITY);
-            } else if (cursors.down.isDown) {
-                this.kidskate.setVelocityY(this.PLAYER_VELOCITY);
-            } else {
-                this.kidskate.setVelocityY(0);
+                this.bosskid.setVelocityX(0);
+                this.bosskid.anims.stop(); // Stop animation when not moving
             }
     
             // Check for collision
-            this.physics.world.overlap(this.kidskate, this.grandma, this.handleCollision, null, this);
+            this.physics.world.overlap(this.bosskid, this.grandma, this.handleCollision, null, this);
         } else {
             // If player movement is not allowed, set velocity to zero
-            this.kidskate.setVelocity(0, 0);
+            this.bosskid.setVelocity(0, 0);
         }
     
         // Move the grandma towards the kid
         const grandmaSpeed = 50; // You can adjust the speed as needed
     
-        const deltaX = this.kidskate.x - this.grandma.x;
-        const deltaY = this.kidskate.y - this.grandma.y;
+        const deltaX = this.bosskid.x - this.grandma.x;
+        const deltaY = this.bosskid.y - this.grandma.y;
     
         // Calculate the angle between the grandma and kid
         const angle = Math.atan2(deltaY, deltaX);
@@ -126,7 +141,7 @@ class BossLevel extends Phaser.Scene {
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
     
         // Face the grandma in the direction of movement
-        if (this.kidskate.x > this.grandma.x) {
+        if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); // Face right
         } else {
             this.grandma.setFlipX(true); // Face left
@@ -139,7 +154,7 @@ class BossLevel extends Phaser.Scene {
             this.grandma.anims.stop();
     
             // Hide the kidskate sprite
-            this.kidskate.setVisible(false);
+            this.bosskid.setVisible(false);
     
             this.allowPlayerMovement = false;
             this.gameOver = true;

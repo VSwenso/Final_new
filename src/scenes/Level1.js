@@ -101,7 +101,7 @@ class Level1 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('SceneStart2'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-        }, 10000); // 10 seconds in milliseconds
+        }, 1000); // 10 seconds in milliseconds
     }
 
 
