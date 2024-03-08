@@ -9,7 +9,7 @@ preload() {
 
     create() {
     // Add the lore text
-    this.starfield = this.add.tileSprite(0, 0, 800, 600, 'TutScreen2').setOrigin(0, 0);
+    this.TutScreen2 = this.add.tileSprite(0, 0, 800, 600, 'TutScreen2').setOrigin(0, 0);
 
     let loreText = "You acquired grandmas's shellphone and she wants it back! Avoid Grandma Shark, her decorative seaweed, and her grandfish for as long as you can. Stay safe Poon!";
     this.add.text(50, 50, loreText, {
