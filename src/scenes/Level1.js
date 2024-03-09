@@ -37,7 +37,7 @@ class Level1 extends Phaser.Scene {
 
     create() {
 
-        const RunningSound = this.sound.add('RunnerLoop');
+        const RunningSound = this.sound.add('RunnerLoop',  { loop: true });
         RunningSound.play();  
 
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'runnerback').setOrigin(0, 0);
