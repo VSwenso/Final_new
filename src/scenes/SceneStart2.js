@@ -5,9 +5,6 @@ class SceneStart2 extends Phaser.Scene {
 
 preload() {
     this.load.image('TutScreen2', './assets/TutScreen2.png')
-
-    //load audio
-    this.load.audio('RunnerLoop', './assets/sounds/RunnerLoop.mp3')
 }
 
     create() {
