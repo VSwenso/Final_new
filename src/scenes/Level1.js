@@ -29,9 +29,16 @@ class Level1 extends Phaser.Scene {
             frameWidth: 75,
             frameHeight: 80  
         });
+
+        //
+        this.load.audio('RunnerLoop', './assets/sounds/RunnerLoop.mp3')
+
     }
 
     create() {
+
+        const RunningSound = this.sound.add('RunnerLoop',  { loop: true });
+        RunningSound.play();  
 
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'runnerback').setOrigin(0, 0);
 
