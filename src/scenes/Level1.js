@@ -22,11 +22,18 @@ class Level1 extends Phaser.Scene {
         // Load kid
         this.load.image('kidskate', './assets/KIDskateboard.png');
         //Load Obstacles
-        this.load.image('tempobstacle', './assets/tempobstacle.png')
+        //this.load.image('tempobstacle', './assets/tempobstacle.png')
+        this.load.image('underObs', './assets/Obstacle3.png')
+        this.load.image('aroundObs', './assets/Obstacle1.png')
 
         //Load Spritesheets
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
             frameWidth: 75,
+            frameHeight: 80  
+        });
+
+        this.load.spritesheet('crash', './assets/kidcrash.png', {
+            frameWidth: 80,
             frameHeight: 80  
         });
 
@@ -98,6 +105,14 @@ class Level1 extends Phaser.Scene {
             loop: true,
         });
 
+        // Add the kid crash animation
+        this.anims.create({
+            key: 'kidCrash',
+            frames: this.anims.generateFrameNumbers('crash', { start: 0, end: 1 }),
+            frameRate: 8,
+            repeat: 0, // Play the animation only once
+        });
+
         // Add collision event between kidskate and tempobstacle
         this.physics.add.collider(this.kidskate, this.obstaclesGroup, this.handleObstacleCollision, null, this);
     }
@@ -133,13 +148,35 @@ class Level1 extends Phaser.Scene {
     }
 
     spawnObstacle() {
-        const x = this.allowedArea.x.max;
-        const y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max);
+        // Define x and y outside of the if conditions
+        let x, y;
     
-        const obstacle = this.obstaclesGroup.create(x, y, 'tempobstacle');
-        obstacle.setScale(0.1);
+        const obstacleType = Phaser.Math.RND.pick(['aroundObs', 'underObs']);
+    
+        // Adjust the size of the physics body based on the obstacle type
+        if (obstacleType === 'aroundObs') {
+            x = this.allowedArea.x.max;
+            y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max);
+        } else if (obstacleType === 'underObs') {
+            x = this.allowedArea.x.max;
+            y = this.allowedArea.y.min + (this.allowedArea.y.max - this.allowedArea.y.min) / 2;
+        }
+    
+        const obstacle = this.obstaclesGroup.create(x, y, obstacleType);
+    
+        if (obstacleType === 'aroundObs') {
+            obstacle.setScale(0.8);
+            obstacle.body.setSize(75, 200);
+            obstacle.body.setOffset(225, 75); // Adjust OffsetX as needed
+        } else if (obstacleType === 'underObs') {
+            obstacle.setScale(1.25);
+            obstacle.body.setSize(10, 10);
+            obstacle.body.setOffset(375, 600); // Adjust OffsetX as needed
+        }
+    
         obstacle.setVelocityX(-this.PLAYER_VELOCITY); // Adjust the velocity as needed
-    }    
+    }
+    
 
     update() {
         // Check if player movement is allowed
@@ -239,7 +276,6 @@ class Level1 extends Phaser.Scene {
 
     handleObstacleCollision() {
         // Stop the existing animations for both kidskate and grandma
-        //this.kidskate.anims.stop();
         this.grandma.anims.stop();
 
         // Hide the kidskate sprite
@@ -251,18 +287,18 @@ class Level1 extends Phaser.Scene {
         // Stop the Background from scrolling
         this.backgroundScrolling = false;
 
-        // Play the new animation for grandma
-        //this.grandma.anims.play('collisionGrandma');
+        //this.obstaclesGroup.setVelocityX(0);
 
-        // After the collision animation is done, transition to the GameOver scene
-        //this.grandma.once('animationcomplete', () => {
+        // Play the kid crash animation
+        this.kidskate.play('kidCrash'); // Use play instead of anims.play
 
+        // After the crash animation is done, transition to the GameOver scene
+        this.kidskate.once('animationcomplete', () => {
             // Reset the game state
-        this.resetGame();
-
+            this.resetGame();
 
             // Transition to the GameOver scene
-        this.scene.start('GameOver');
-        //});
+            this.scene.start('GameOver');
+        });
     }
 }  

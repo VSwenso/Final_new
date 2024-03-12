@@ -16,6 +16,9 @@ class Level2 extends Phaser.Scene {
         // Load kid
         this.load.image('kidskate', './assets/KIDskateboard.png');
 
+        //Load Walls
+        
+
         //Load Spritesheets
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
             frameWidth: 75,
