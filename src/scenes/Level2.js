@@ -3,10 +3,16 @@ class Level2 extends Phaser.Scene {
         super('Level2');
         this.backgroundScrolling = true;
         this.allowPlayerMovement = true;
+
+        this.allowedArea = {
+            x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
+            y: { min: 250 , max: 455  }  // Adjust these values based on your allowed area
+        };
+        this.timer = null; // Add this line to initialize the timer property
     }
 
     init() {
-        this.PLAYER_VELOCITY = 350;
+        this.PLAYER_VELOCITY = 500;
         this.gameOver = false
     }
 
@@ -15,18 +21,31 @@ class Level2 extends Phaser.Scene {
         this.load.image('runnerback', './assets/runnerback.png');
         // Load kid
         this.load.image('kidskate', './assets/KIDskateboard.png');
-
-        //Load Walls
-        
+        //Load Obstacles
+        //this.load.image('tempobstacle', './assets/tempobstacle.png')
+        this.load.image('underObs', './assets/Obstacle3.png')
+        this.load.image('aroundObs', './assets/Obstacle1.png')
 
         //Load Spritesheets
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
             frameWidth: 75,
             frameHeight: 80  
         });
+
+        this.load.spritesheet('crash', './assets/kidcrash.png', {
+            frameWidth: 80,
+            frameHeight: 80  
+        });
+
+        //
+        this.load.audio('RunnerLoop', './assets/sounds/RunnerLoop.mp3')
+
     }
 
     create() {
+
+        const RunningSound = this.sound.add('RunnerLoop',  { loop: true });
+        RunningSound.play();  
 
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'runnerback').setOrigin(0, 0);
 
@@ -44,8 +63,8 @@ class Level2 extends Phaser.Scene {
         // Set the kid sprite to collide with the world bounds
         this.kidskate.setCollideWorldBounds(true);
 
-       // Customize the size of the physics body
-       this.kidskate.body.setSize(25, 30); // Adjust the width and height as needed
+        // Customize the size of the physics body
+        this.kidskate.body.setSize(25, 30); // Adjust the width and height as needed
 
         // Add the grandma sprite and set its initial position
         this.grandma = this.add.sprite(100, 300, 'allsprites').setOrigin(0.25, 0.5);
@@ -53,9 +72,9 @@ class Level2 extends Phaser.Scene {
         // Enable phsyics for the grandma sprite
         this.physics.world.enable(this.grandma);
 
-       // Set the offset to align the collision box better with the sprite
-       this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
-       this.grandma.body.setOffset(60, 18);
+        // Set the offset to align the collision box better with the sprite
+        this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
+        this.grandma.body.setOffset(60, 18);
 
         // Animation for the grandma sprite
         this.anims.create({
@@ -74,17 +93,39 @@ class Level2 extends Phaser.Scene {
        
         // Add collision event
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
+
+        // Create a group for obstacles
+        this.obstaclesGroup = this.physics.add.group();
+
+        // Start spawning obstacles at a regular interval
+        this.spawnObstacleTimer = this.time.addEvent({
+            delay: 1500, // Adjust the delay as needed
+            callback: this.spawnObstacle,
+            callbackScope: this,
+            loop: true,
+        });
+
+        // Add the kid crash animation
+        this.anims.create({
+            key: 'kidCrash',
+            frames: this.anims.generateFrameNumbers('crash', { start: 0, end: 1 }),
+            frameRate: 8,
+            repeat: 0, // Play the animation only once
+        });
+
+        // Add collision event between kidskate and tempobstacle
+        this.physics.add.collider(this.kidskate, this.obstaclesGroup, this.handleObstacleCollision, null, this);
     }
 
-    // New method to start the timer
     startTimer() {
         // Check if the gameover condition is met
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
             if (!this.gameOver) {
                 this.scene.start('BossStart'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-            }, 10000); // 15 seconds in milliseconds
+        }, 15000); // 10 seconds in milliseconds
     }
+
 
     // New method to handle game reset
     resetGame() {
@@ -103,9 +144,39 @@ class Level2 extends Phaser.Scene {
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
 
-        // Start the timer for 15 seconds
-        //this.startTimer();
+        clearTimeout(this.timer); // Clear the timer using the stored timeout ID
     }
+
+    spawnObstacle() {
+        // Define x and y outside of the if conditions
+        let x, y;
+    
+        const obstacleType = Phaser.Math.RND.pick(['aroundObs', 'underObs']);
+    
+        // Adjust the size of the physics body based on the obstacle type
+        if (obstacleType === 'aroundObs') {
+            x = this.allowedArea.x.max;
+            y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max);
+        } else if (obstacleType === 'underObs') {
+            x = this.allowedArea.x.max;
+            y = this.allowedArea.y.min + (this.allowedArea.y.max - this.allowedArea.y.min) / 2;
+        }
+    
+        const obstacle = this.obstaclesGroup.create(x, y, obstacleType);
+    
+        if (obstacleType === 'aroundObs') {
+            obstacle.setScale(0.8);
+            obstacle.body.setSize(75, 200);
+            obstacle.body.setOffset(225, 75); // Adjust OffsetX as needed
+        } else if (obstacleType === 'underObs') {
+            obstacle.setScale(1.25);
+            obstacle.body.setSize(10, 10);
+            obstacle.body.setOffset(375, 600); // Adjust OffsetX as needed
+        }
+    
+        obstacle.setVelocityX(-this.PLAYER_VELOCITY); // Adjust the velocity as needed
+    }
+    
 
     update() {
         // Check if player movement is allowed
@@ -129,6 +200,20 @@ class Level2 extends Phaser.Scene {
             } else {
                 this.kidskate.setVelocityY(0);
             }
+
+            // Check if the kid is outside the allowed area on the X-axis
+            if (this.kidskate.x < this.allowedArea.x.min) {
+                this.kidskate.x = this.allowedArea.x.min;
+            } else if (this.kidskate.x > this.allowedArea.x.max) {
+                this.kidskate.x = this.allowedArea.x.max;
+            }
+
+            // Check if the kid is outside the allowed area on the Y-axis
+            if (this.kidskate.y < this.allowedArea.y.min) {
+                this.kidskate.y = this.allowedArea.y.min;
+            } else if (this.kidskate.y > this.allowedArea.y.max) {
+                this.kidskate.y = this.allowedArea.y.max;
+            }
         } else {
             // If player movement is not allowed, set velocity to zero
             this.kidskate.setVelocity(0, 0);
@@ -137,10 +222,16 @@ class Level2 extends Phaser.Scene {
         // Update grandma position to follow kidskate on the same Y-axis
         this.grandma.y = this.kidskate.y;
 
-         // Continue scrolling the background only if background scrolling is allowed
-            if (this.backgroundScrolling) {
-                this.runnerback.tilePositionX += 4; // Adjust the scrolling speed as needed
-            }
+        // Continue scrolling the background only if background scrolling is allowed
+        if (this.backgroundScrolling) {
+            this.runnerback.tilePositionX += 7; // Adjust the scrolling speed as needed
+        }
+
+        // Check if it's time to spawn a new obstacle
+        const spawnInterval = Phaser.Math.Between(1000, 5000); // Set the interval as needed
+        if (Phaser.Time.TimerEvent.SECOND * this.time.now % spawnInterval === 0) {
+            this.spawnObstacle();
+        }
     }
 
     handleCollision() {
@@ -177,6 +268,34 @@ class Level2 extends Phaser.Scene {
             // Reset the game state
             this.resetGame();
 
+
+            // Transition to the GameOver scene
+            this.scene.start('GameOver');
+        });
+    }
+
+    handleObstacleCollision() {
+        // Stop the existing animations for both kidskate and grandma
+        this.grandma.anims.stop();
+
+        // Hide the kidskate sprite
+        //this.kidskate.setVisible(false);
+
+        this.allowPlayerMovement = false;
+        this.gameOver = true;
+
+        // Stop the Background from scrolling
+        this.backgroundScrolling = false;
+
+        //this.obstaclesGroup.setVelocityX(0);
+
+        // Play the kid crash animation
+        this.kidskate.play('kidCrash'); // Use play instead of anims.play
+
+        // After the crash animation is done, transition to the GameOver scene
+        this.kidskate.once('animationcomplete', () => {
+            // Reset the game state
+            this.resetGame();
 
             // Transition to the GameOver scene
             this.scene.start('GameOver');
