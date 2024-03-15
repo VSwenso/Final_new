@@ -19,6 +19,7 @@ class BossLevel extends Phaser.Scene {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
         this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
+        
 
         //Load Spritesheets
         this.load.spritesheet('bosskid', './assets/bosskid.png', {

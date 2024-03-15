@@ -7,12 +7,10 @@ class Menu extends Phaser.Scene {
 preload() {
     this.load.image('menuscreen', './assets/MenuGRAN.png')
     this.load.image('kidskate', './assets/KIDskateboard.png')
-    this.load.audio('music', './assets/sounds/stressgame.mp3')
     this.load.audio('start', './assets/sounds/select.wav')
-
+    this.load.audio('music', './assets/sounds/RunnerLoop.mp3');
     //load Font
     this.load.bitmapFont('gamefont', './assets/gamefont.png', './assets/gamefont.xml')
-
     //Load sprites
     this.load.spritesheet('allsprites', './assets/allSprites.png', {
         frameWidth: 75,
@@ -30,6 +28,12 @@ preload() {
 
         // Add start sound
         let startSound = this.sound.add('start', { volume: 1 });
+        // Play music if not already playing
+        if (!this.musicPlaying) {
+            this.music = this.sound.add('music', { loop: true });
+            this.music.play();
+            this.musicPlaying = true;
+        }
     
         // Add the KidSkater image and scale it
         let kidskate = this.add.image(game.config.width / 2, 290, 'kidskate').setOrigin(-0.75, -0.75);
@@ -60,14 +64,6 @@ preload() {
             //startSound.play()
             this.scene.start('SceneStart1'); // Replace 'NextScene' with the key of the scene you want to transition to
         }, this); 
-
-        
-    //     // Check if music is not already playing, then start it
-    //     //if (!this.musicPlaying) {
-    //         //let music = this.sound.add('music', { loop: true, volume: 0.25 });
-    //         //music.play();
-    //         this.musicPlaying = true;
-    //     }
     }
 
     update() {

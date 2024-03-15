@@ -36,17 +36,9 @@ class Level2 extends Phaser.Scene {
             frameWidth: 80,
             frameHeight: 80  
         });
-
-        //
-        this.load.audio('RunnerLoop', './assets/sounds/RunnerLoop.mp3')
-
     }
 
     create() {
-
-        const RunningSound = this.sound.add('RunnerLoop',  { loop: true });
-        RunningSound.play();  
-
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'runnerback').setOrigin(0, 0);
 
         this.startTimer(); 
@@ -123,7 +115,7 @@ class Level2 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('BossStart'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-        }, 15000); // 10 seconds in milliseconds
+        }, 5000); // 10 seconds in milliseconds
     }
 
 
