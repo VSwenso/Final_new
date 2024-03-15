@@ -4,25 +4,29 @@ class GameOver extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('madpoon', './assets/images/madpoon.png')
+        this.load.image('GameOverBack', './assets/GameOverBack.png')
+        //Load sprites
+        this.load.spritesheet('allSprites', './assets/allSprites.png', {
+            frameWidth: 75,
+            frameHeight: 80  
+        });
     }
 
-    create() {
-        // Set the background color
-        this.cameras.main.setBackgroundColor('#000000'); // Set to black for example
-    
+    create() {    
+        //set background 
+        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'GameOverBack').setOrigin(0, 0);
         // Display "Game Over" text
         let gameOverTextConfig = {
             fontFamily: 'Helveta',
             fontSize: '72px',
-            color: '#FF0000',  // Red color
+            color: '#FFFFFF',  // Red color
             align: 'center',
             padding: {
                 top: 10,
                 bottom: 10,
             },
         };
-        this.add.text(this.scale.width / 2, this.scale.height / 2 - 50, 'You Were Caught!', gameOverTextConfig)
+        this.add.text(this.scale.width / 2, this.scale.height / 2 + 150, 'You Were Caught!', gameOverTextConfig)
             .setOrigin(0.5)
             .setDepth(1);
     
@@ -37,15 +41,20 @@ class GameOver extends Phaser.Scene {
                 bottom: 10,
             },
         };
-        this.add.text(this.scale.width / 2, this.scale.height / 2 + 50, 'Press [R] to Play again!', playAgainTextConfig)
+
+        // Animation from 'allsprites' sprite sheet
+        let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
+        allSprites.setVelocityX(44); // Set initial velocity along X-axis
+
+
+        allSprites.anims.play('move');
+        allSprites.setScale(-2, 2); // Set the X-axis scale to -2
+
+        // Wrap around the screen
+        this.physics.world.wrap(allSprites); 
+        this.add.text(this.scale.width / 2, this.scale.height / 2 + 225, 'Press [R] to Play again!', playAgainTextConfig)
             .setOrigin(0.5)
             .setDepth(1);
-
-        // Add the madpoon image
-        let madpoonImage = this.add.image(this.scale.width / 2, this.scale.height / 2 + 175 , 'madpoon')
-            .setOrigin(0.5)
-            .setDepth(1)
-            .setScale(0.20)
 
         let startSound = this.sound.add('start', { volume: 1 });
 
@@ -55,5 +64,15 @@ class GameOver extends Phaser.Scene {
             this.scene.start('menuScene'); // Replace 'NextScene' with the key of the scene you want to transition to
         }, this); 
     }
-    
+
+    update() {
+        // Check if the allSprites sprite exists and is out of the screen
+        if (this.allSprites && this.allSprites.x !== undefined) {
+            if (this.allSprites.x < 0) {
+                this.allSprites.x = this.scale.width; // Move the allSprites sprite to the right edge of the screen
+            } else if (this.allSprites.x > this.scale.width) {
+                this.allSprites.x = 0; // Move the allSprites sprite to the left edge of the screen
+            }
+        }
+    }    
 }
