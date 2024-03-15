@@ -1,6 +1,7 @@
 class GameOver extends Phaser.Scene {
     constructor() {
         super("GameOver");
+        this.GOmusicPlaying = false;
     }
 
     preload() {
@@ -10,11 +11,20 @@ class GameOver extends Phaser.Scene {
             frameWidth: 75,
             frameHeight: 80  
         });
+        this.load.audio('GOmusic', './assets/sounds/GameOver.mp3')
     }
 
     create() {    
+
+        this.sound.stopAll();
+        
         //set background 
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'GameOverBack').setOrigin(0, 0);
+
+        this.GOmusic = this.sound.add('GOmusic', { loop: true });
+        this.GOmusic.play();
+        this.GOmusicPlaying = true;
+
         // Display "Game Over" text
         let gameOverTextConfig = {
             fontFamily: 'Helveta',

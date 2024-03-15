@@ -1,7 +1,7 @@
 class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene")
-        this.musicPlaying = false;
+        //this.musicPlaying = false;
     }
 
 preload() {
@@ -22,6 +22,8 @@ preload() {
 
     create() {
 
+        this.sound.stopAll();
+
         this.menuscreen = this.add.tileSprite(0, 0, 800, 600, 'menuscreen').setOrigin(0, 0);
 
         this.add.bitmapText(game.config.width / 2, game.config.height - 135, 'gamefont', 'PRESS\n[SPACE]\nTO START', 32).setOrigin(0.5)
@@ -29,11 +31,11 @@ preload() {
         // Add start sound
         let startSound = this.sound.add('start', { volume: 1 });
         // Play music if not already playing
-        if (!this.musicPlaying) {
-            this.music = this.sound.add('music', { loop: true });
-            this.music.play();
-            this.musicPlaying = true;
-        }
+        //if (!this.musicPlaying) {
+        this.music = this.sound.add('music', { loop: true });
+        this.music.play();
+        this.musicPlaying = true;
+       // }
     
         // Add the KidSkater image and scale it
         let kidskate = this.add.image(game.config.width / 2, 290, 'kidskate').setOrigin(-0.75, -0.75);
