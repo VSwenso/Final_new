@@ -70,17 +70,17 @@ class Level2 extends Phaser.Scene {
 
         // Animation for the grandma sprite
         this.anims.create({
-            key: 'move-play',
+            key: 'move-play-2',
             frames: this.anims.generateFrameNumbers('allsprites', { start: 0, end: 1 }),
-            frameRate: 5,
+            frameRate: 6,
             repeat: -1,
         });
 
         this.grandma.on(Phaser.Animations.Events.SPRITE_ANIMATION_COMPLETE, function () {
-            this.grandma.anims.play('move-play');
+            this.grandma.anims.play('move-play-2');
         });
 
-       this.grandma.anims.play('move-play');
+       this.grandma.anims.play('move-play-2');
        this.grandma.setScale(-1.5, 2); // Set the X-axis scale to -2
        
         // Add collision event
@@ -99,9 +99,9 @@ class Level2 extends Phaser.Scene {
 
         // Add the kid crash animation
         this.anims.create({
-            key: 'kidCrash',
+            key: 'kidCrash2',
             frames: this.anims.generateFrameNumbers('crash', { start: 0, end: 1 }),
-            frameRate: 8,
+            frameRate: 9,
             repeat: 0, // Play the animation only once
         });
 
@@ -130,7 +130,7 @@ class Level2 extends Phaser.Scene {
 
         // Reset player and grandma animations
         //this.kidskate.anims.play('move');
-        this.grandma.anims.play('move-play');
+        this.grandma.anims.play('move-play-2');
 
         // Reset flags and variables
         this.allowPlayerMovement = true;
@@ -284,7 +284,7 @@ class Level2 extends Phaser.Scene {
         //this.obstaclesGroup.setVelocityX(0);
 
         // Play the kid crash animation
-        this.kidskate.play('kidCrash'); // Use play instead of anims.play
+        this.kidskate.play('kidCrash2'); // Use play instead of anims.play
 
         // After the crash animation is done, transition to the GameOver scene
         this.kidskate.once('animationcomplete', () => {

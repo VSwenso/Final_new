@@ -1,7 +1,7 @@
 class BossStart extends Phaser.Scene {
     constructor() {
         super("BossStart");
-        this.bossmusicPlaying = false;
+        //this.bossmusicPlaying = false;
     }
 
 preload() {
@@ -17,11 +17,11 @@ create() {
     this.sound.stopAll();
 
     // Play boss music if not already playing
-    if (!this.bossmusicPlaying) {
-        this.bossmusic = this.sound.add('bossmusic', { loop: true });
-        this.bossmusic.play();
-        this.bossmusicPlaying = true;
-    }
+    //if (!this.bossmusicPlaying) {
+    this.bossmusic = this.sound.add('bossmusic', { loop: true });
+    this.bossmusic.play();
+    this.bossmusicPlaying = true;
+    //}
 
     let startSound = this.sound.add('start', { volume: 1 });
     // Set up keyboard input for space bar
