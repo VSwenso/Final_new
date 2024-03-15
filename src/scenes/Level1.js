@@ -26,6 +26,8 @@ class Level1 extends Phaser.Scene {
         this.load.image('underObs', './assets/Obstacle3.png')
         this.load.image('aroundObs', './assets/Obstacle1.png')
 
+        this.load.audio('kissy', './assets/sounds/GrannyKisses.mp3')
+
         //Load Spritesheets
         this.load.spritesheet('allsprites', './assets/allSprites.png', {
             frameWidth: 75,
@@ -36,10 +38,6 @@ class Level1 extends Phaser.Scene {
             frameWidth: 80,
             frameHeight: 80  
         });
-
-        //
-       //this.load.audio('RunnerLoop', './assets/sounds/RunnerLoop.mp3')
-
     }
 
     create() {
@@ -258,6 +256,8 @@ class Level1 extends Phaser.Scene {
 
         // Play the new animation for grandma
         this.grandma.anims.play('collisionGrandma');
+
+        this.sound.play('kissy', { rate: 3 }); // Adjust the rate as needed (2x faster)
 
         // After the collision animation is done, transition to the GameOver scene
         this.grandma.once('animationcomplete', () => {

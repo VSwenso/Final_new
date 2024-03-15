@@ -254,6 +254,8 @@ class Level2 extends Phaser.Scene {
         // Play the new animation for grandma
         this.grandma.anims.play('collisionGrandma');
 
+        this.sound.play('kissy', { rate: 3 });
+
         // After the collision animation is done, transition to the GameOver scene
         this.grandma.once('animationcomplete', () => {
 
