@@ -158,7 +158,7 @@ class Level2 extends Phaser.Scene {
     
         if (obstacleType === 'aroundObs') {
             obstacle.setScale(0.8);
-            obstacle.body.setSize(25, 200);
+            obstacle.body.setSize(25, 150);
             obstacle.body.setOffset(276, 50); // Adjust OffsetX as needed
         } else if (obstacleType === 'underObs') {
             obstacle.setScale(1.25);
