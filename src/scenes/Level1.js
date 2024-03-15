@@ -156,7 +156,7 @@ class Level1 extends Phaser.Scene {
         // Adjust the size of the physics body based on the obstacle type
         if (obstacleType === 'aroundObs') {
             x = this.allowedArea.x.max;
-            y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max);
+            y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max - 100);
         } else if (obstacleType === 'underObs') {
             x = this.allowedArea.x.max;
             y = this.allowedArea.y.min + (this.allowedArea.y.max - this.allowedArea.y.min) / 2;
@@ -166,8 +166,8 @@ class Level1 extends Phaser.Scene {
     
         if (obstacleType === 'aroundObs') {
             obstacle.setScale(0.8);
-            obstacle.body.setSize(75, 200);
-            obstacle.body.setOffset(225, 75); // Adjust OffsetX as needed
+            obstacle.body.setSize(25, 200);
+            obstacle.body.setOffset(276 , 50); // Adjust OffsetX as needed
         } else if (obstacleType === 'underObs') {
             obstacle.setScale(1.25);
             obstacle.body.setSize(10, 10);

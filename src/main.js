@@ -35,7 +35,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true 
         }
     },
     scene: [Menu, SceneStart1, Level1, SceneStart2, Level2, BossStart, BossLevel, GameOver ]
