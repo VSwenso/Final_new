@@ -23,7 +23,7 @@ class Level2 extends Phaser.Scene {
         this.load.image('kidskate', './assets/KIDskateboard.png');
         //Load Obstacles
         //this.load.image('tempobstacle', './assets/tempobstacle.png')
-        this.load.image('underObs', './assets/Obstacle3.png')
+        this.load.image('GrannyCat', './assets/GrannyCat.png')
         this.load.image('aroundObs', './assets/Obstacle1.png')
 
         //Load Spritesheets
@@ -86,6 +86,8 @@ class Level2 extends Phaser.Scene {
         // Add collision event
         this.physics.add.collider(this.kidskate, this.grandma, this.handleCollision, null, this);
 
+        this.physics.add.collider(this.kidskate, this.GrannyCat, this.handlecatCollision, null, this)
+
         // Create a group for obstacles
         this.obstaclesGroup = this.physics.add.group();
 
@@ -115,7 +117,7 @@ class Level2 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('BossStart'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-        }, 5000); // 10 seconds in milliseconds
+        }, 45000); // 45 seconds in milliseconds
     }
 
 
@@ -143,28 +145,35 @@ class Level2 extends Phaser.Scene {
         // Define x and y outside of the if conditions
         let x, y;
     
-        const obstacleType = Phaser.Math.RND.pick(['aroundObs', 'underObs']);
+        const obstacleType = Phaser.Math.RND.pick(['aroundObs', 'underObs', 'GrannyCat']);
     
-        // Adjust the size of the physics body based on the obstacle type
-        if (obstacleType === 'aroundObs') {
-            x = this.allowedArea.x.max;
-            y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max - 100);
-        } else if (obstacleType === 'underObs') {
-            x = this.allowedArea.x.max;
-            y = this.allowedArea.y.min + (this.allowedArea.y.max - this.allowedArea.y.min) / 2;
-        }
-    
-        const obstacle = this.obstaclesGroup.create(x, y, obstacleType);
-    
-        if (obstacleType === 'aroundObs') {
-            obstacle.setScale(0.8);
-            obstacle.body.setSize(25, 150);
-            obstacle.body.setOffset(276, 50); // Adjust OffsetX as needed
-        } else if (obstacleType === 'underObs') {
-            obstacle.setScale(1.25);
-            obstacle.body.setSize(10, 10);
-            obstacle.body.setOffset(375, 600); // Adjust OffsetX as needed
-        }
+    // Adjust the size of the physics body based on the obstacle type
+    if (obstacleType === 'aroundObs') {
+        x = this.allowedArea.x.max;
+        y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max - 100);
+    } else if (obstacleType === 'underObs') {
+        x = this.allowedArea.x.max;
+        y = this.allowedArea.y.min + (this.allowedArea.y.max - this.allowedArea.y.min) / 2;
+    } else if (obstacleType === 'GrannyCat') {
+        x = this.allowedArea.x.max;
+        y = Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max - 100);
+     }
+
+    const obstacle = this.obstaclesGroup.create(x, y, obstacleType);
+
+    if (obstacleType === 'aroundObs') {
+        obstacle.setScale(0.8);
+        obstacle.body.setSize(25, 150);
+        obstacle.body.setOffset(276 , 70); // Adjust OffsetX as needed
+    } else if (obstacleType === 'underObs') {
+        obstacle.setScale(1.25);
+        obstacle.body.setSize(10, 10);
+        obstacle.body.setOffset(375, 600); // Adjust OffsetX as needed
+    } else if (obstacleType === 'GrannyCat') {
+        obstacle.setScale(3.2); // Adjust scale as needed
+        obstacle.body.setSize(10, 10); // Adjust size as needed
+        obstacle.body.setOffset(8, 8); // Adjust OffsetX as needed
+    }
     
         obstacle.setVelocityX(-this.PLAYER_VELOCITY); // Adjust the velocity as needed
     }
@@ -268,31 +277,32 @@ class Level2 extends Phaser.Scene {
         });
     }
 
-    handleObstacleCollision() {
-        // Stop the existing animations for both kidskate and grandma
-        this.grandma.anims.stop();
-
-        // Hide the kidskate sprite
-        //this.kidskate.setVisible(false);
-
-        this.allowPlayerMovement = false;
-        this.gameOver = true;
-
-        // Stop the Background from scrolling
-        this.backgroundScrolling = false;
-
-        //this.obstaclesGroup.setVelocityX(0);
-
-        // Play the kid crash animation
-        this.kidskate.play('kidCrash2'); // Use play instead of anims.play
-
-        // After the crash animation is done, transition to the GameOver scene
-        this.kidskate.once('animationcomplete', () => {
+    handleObstacleCollision(kid, obstacle) {
+        if (obstacle.texture.key === 'GrannyCat') {
+            // Stop the existing animations for both kidskate and grandma
+            this.grandma.anims.stop();
+        
+            this.allowPlayerMovement = false;
+            this.gameOver = true;
+            this.backgroundScrolling = false;
+        
             // Reset the game state
             this.resetGame();
-
+        
             // Transition to the GameOver scene
             this.scene.start('GameOver');
-        });
+        } else {
+            // If the obstacle is not a GrannyCat, play the kid's crash animation
+            this.kidskate.play('kidCrash');
+        
+            // After the crash animation is done, transition to the GameOver scene
+            this.kidskate.once('animationcomplete', () => {
+                // Reset the game state
+                this.resetGame();
+        
+                // Transition to the GameOver scene
+                this.scene.start('GameOver');
+            });
+        }
     }
-}  
+}
