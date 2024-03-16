@@ -19,7 +19,7 @@ class BossLevel extends Phaser.Scene {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
         this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
-        
+
 
         //Load Spritesheets
         this.load.spritesheet('bosskid', './assets/bosskid.png', {
@@ -190,6 +190,8 @@ class BossLevel extends Phaser.Scene {
     
             // Hide the kidskate sprite
             this.bosskid.setVisible(false);
+
+            this.sound.play('kissy', { rate: 3 });
     
             this.allowPlayerMovement = false;
             this.gameOver = true;
