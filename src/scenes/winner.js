@@ -1,11 +1,11 @@
-class GameOver extends Phaser.Scene {
+class winner extends Phaser.Scene {
     constructor() {
-        super("GameOver");
+        super("winner");
         this.GOmusicPlaying = false;
     }
 
     preload() {
-        this.load.image('GameOverBack', './assets/GameOverBack.png')
+        this.load.image('winnerback', './assets/winscreen.png')
         //Load sprites
         this.load.spritesheet('allSprites', './assets/allSprites.png', {
             frameWidth: 75,
