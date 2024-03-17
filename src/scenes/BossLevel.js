@@ -51,6 +51,9 @@ class BossLevel extends Phaser.Scene {
 
     this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
 
+    //Physics World Gravity (aka get Kid to jump)
+    this.physics.world.gravity.y = 1000; //may need to adjust value 
+
 
     // Add the bosskid sprite and set its initial position
     this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
