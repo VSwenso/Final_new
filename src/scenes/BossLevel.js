@@ -19,6 +19,7 @@ class BossLevel extends Phaser.Scene {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
         this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
+        this.load.image('WinScreen', './assets/winscreen.png'); //winscreen
 
 
         //Load Spritesheets
@@ -50,6 +51,7 @@ class BossLevel extends Phaser.Scene {
     create() {
 
     this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
+    this.startTimer();
 
     //Physics World Gravity (aka get Kid to jump)
     this.physics.world.gravity.y = 1000; //may need to adjust value 
@@ -103,6 +105,15 @@ class BossLevel extends Phaser.Scene {
     this.projectiles = this.physics.add.group();
 
  }
+
+    startTimer() {
+        //check if the Game-over condition is met
+        this.timer = setTimeout(() => {
+            if (!this.gameOver) {
+                this.scene.start('WinScreen'); 
+            }
+        }, 35000); //35 second level length 
+    }
 
 
     // New method to handle game reset
