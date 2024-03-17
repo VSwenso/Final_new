@@ -110,7 +110,7 @@ class BossLevel extends Phaser.Scene {
         //check if the Game-over condition is met
         this.timer = setTimeout(() => {
             if (!this.gameOver) {
-                this.scene.start('WinScreen'); 
+                this.scene.start('winner'); 
             }
         }, 35000); //35 second level length 
     }
@@ -187,7 +187,25 @@ class BossLevel extends Phaser.Scene {
         // Set grandma velocity based on the angle
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed);
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
-    
+
+        //Prevent Grandma from moving off screen
+        const minX = 0; 
+        const maxX = this.game.config.width; 
+        const minY = 0; 
+        const maxY = this.game.config.height;  
+
+        if (this.grandma.x < minX) {
+            this.grandma.setX(minX); 
+        } else if (this.grandma.x > maxX) {
+            this.grandma.setX(maxX); 
+        }
+
+        if (this.grandma.x < minY) {
+            this.grandma.setY(minY); 
+        } else if (this.grandma.y > maxY) {
+            this.grandma.setY(maxY); 
+        }
+
         // Face the grandma in the direction of movement
         if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); // Face right
