@@ -58,7 +58,7 @@ class BossLevel extends Phaser.Scene {
 
 
     // Add the bosskid sprite and set its initial position
-    this.bosskid = this.physics.add.sprite(500, 300, 'bosskid').setOrigin(-1.75, 0.5);
+    this.bosskid = this.physics.add.sprite(250, 300, 'bosskid').setOrigin(-1.75, 0.5);
     this.bosskid.setScale(3.5);
     this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
     this.bosskid.setCollideWorldBounds(true);
