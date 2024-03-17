@@ -140,10 +140,13 @@ class BossLevel extends Phaser.Scene {
                 this.bosskid.anims.stop(); // Stop animation when not moving
             }
 
-            // Checking up arrow key press to make the bosskid jump
-            if (cursors.up.isDown && this.bosskid.body.onFloor()) {
-                // Set vertical velocity to make the bosskid jump
-                this.bosskid.setVelocityY(-800); // Adjust the value based on your needs
+            // Check for jumping when up arrow is pressed 
+            if (cursors.up.isDown && !this.jumping) {
+                this.jumping = true;
+                //set Vertical Velocity
+                this.bosskid.setVelocityY(-600) //Adjust if needed
+            } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
+                this.jumping = false;
             }
 
             // Check for shooting when spacebar is pressed
