@@ -166,7 +166,7 @@ class BossLevel extends Phaser.Scene {
             if (cursors.up.isDown && !this.jumping) {
                 this.jumping = true;
                 //set Vertical Velocity
-                this.bosskid.setVelocityY(-600) //Adjust if needed
+                this.bosskid.setVelocityY(-900) //Adjust if needed
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
                 this.jumping = false;
             }
