@@ -7,10 +7,6 @@ class winner extends Phaser.Scene {
     preload() {
         this.load.image('winnerback', './assets/winscreen.png')
         //Load sprites
-        this.load.spritesheet('allSprites', './assets/allSprites.png', {
-            frameWidth: 75,
-            frameHeight: 80  
-        });
         this.load.audio('GOmusic', './assets/sounds/GameOver.mp3')
     }
 
@@ -19,7 +15,7 @@ class winner extends Phaser.Scene {
         this.sound.stopAll();
         
         //set background 
-        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'GameOverBack').setOrigin(0, 0);
+        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'winnerback').setOrigin(0, 0);
 
         this.GOmusic = this.sound.add('GOmusic', { loop: true });
         this.GOmusic.play();
@@ -36,10 +32,7 @@ class winner extends Phaser.Scene {
                 bottom: 10,
             },
         };
-        this.add.text(this.scale.width / 2, this.scale.height / 2 + 150, 'You Were Caught!', gameOverTextConfig)
-            .setOrigin(0.5)
-            .setDepth(1);
-    
+        
         // Display "Press SpaceBar to Play again!" text
         let playAgainTextConfig = {
             fontFamily: 'Helvetica', 
@@ -53,7 +46,6 @@ class winner extends Phaser.Scene {
         };
 
         // Animation from 'allsprites' sprite sheet
-        let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
         allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 

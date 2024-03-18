@@ -6,7 +6,7 @@ class BossLevel extends Phaser.Scene {
 
         this.allowedArea = {
             x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
-            y: { min: 250 , max: 455  }  // Adjust these values based on your allowed area
+            y: { min: 250, max: 455  },  // Adjust these values based on your allowed area
         };
     }
 
@@ -19,6 +19,7 @@ class BossLevel extends Phaser.Scene {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
         this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
+        this.load.image('WinScreen', './assets/winscreen.png'); //winscreen
 
 
         //Load Spritesheets
@@ -48,58 +49,72 @@ class BossLevel extends Phaser.Scene {
     }
 
     create() {
+    // Define Constants
+        //console.log("started")
 
-    this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
+    
+        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
+        this.startTimer();
 
+        //Physics World Gravity (aka get Kid to jump)
+        this.physics.world.gravity.y = 1200; //may need to adjust value LATER
 
-    // Add the bosskid sprite and set its initial position
-    this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
-    this.bosskid.setScale(3.5);
-    this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
-    this.bosskid.setCollideWorldBounds(true);
-    this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
+        // Add the bosskid sprite and set its initial position
+        this.bosskid = this.physics.add.sprite(-300, -150, 'bosskid').setOrigin(-1.75,0.5)
+        //spawn position on left
+        //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
+        this.bosskid.setScale(3.5);
+        this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
+        this.bosskid.setCollideWorldBounds(true);
+        this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
 
-     // Add the grandma sprite and set its initial position on the right side
-     this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
-     this.physics.world.enable(this.grandma);
-     this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
-     this.grandma.body.setOffset(50, 20);
+        // Add the grandma sprite and set its initial position on the right side
+        this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
+        this.physics.world.enable(this.grandma);
+        this.grandma.body.setCollideWorldBounds(true); 
+        this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
+        this.grandma.body.setOffset(50, 20);
  
-     // Animation and scaling for the grandma sprite
-     this.anims.create({
-         key: 'move-play',
-         frames: this.anims.generateFrameNumbers('allsprites', { start: 0, end: 1 }),
-         frameRate: 5,
-         repeat: -1,
-     });
+        // Animation and scaling for the grandma sprite
+        this.anims.create({
+            key: 'move-play',
+            frames: this.anims.generateFrameNumbers('allsprites', { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1,
+        });
 
-    // Add animation for bosskid moving left
-    this.anims.create({
-        key: 'bosskid-left',
-        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
-        frameRate: 15 ,
-        repeat: -1,
-    });
+        // Add animation for bosskid moving left
+        this.anims.create({
+            key: 'bosskid-left',
+            frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+            frameRate: 15 ,
+            repeat: -1,
+        });
 
-    // Add animation for bosskid moving right
-    this.anims.create({
-        key: 'bosskid-right',
-        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
-        frameRate: 15,
-        repeat: -1,
-    });
+        // Add animation for bosskid moving right
+        this.anims.create({
+            key: 'bosskid-right',
+            frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+            frameRate: 15,
+            repeat: -1,
+        });
  
-     this.grandma.anims.play('move-play');
-     this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
-     this.grandma.setVelocityX(-50); // Set initial velocity towards the kid sprite
+        this.grandma.anims.play('move-play');
+        this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
+        this.grandma.setVelocityX(0); // Set initial velocity towards the kid sprite
+        //this.grandma.setAccelerationX(5);
  
-     // Add collision event
-     this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
+        // Add collision event
+        this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
 
-    // Create a group for projectiles
-    this.projectiles = this.physics.add.group();
+        // Create a group for projectiles
+        this.projectiles = this.physics.add.group();
+        console.log("////")
+        console.log(this.bosskid.x)
 
- }
+    }
+
+
 
 
     // New method to handle game reset
@@ -118,6 +133,15 @@ class BossLevel extends Phaser.Scene {
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
 
+    }
+    startTimer() {
+        //check if the Game-over condition is met
+        this.timer = setTimeout(() => {
+            if (!this.gameOver) {
+                this.scene.start('winner'); 
+                this.resetGame();
+            }
+        }, 5000); //35(35000) second level length 
     }
 
     update() {
@@ -139,10 +163,16 @@ class BossLevel extends Phaser.Scene {
                 this.bosskid.setVelocityX(0);
                 this.bosskid.anims.stop(); // Stop animation when not moving
             }
-            // Check for up arrow key press to make bosskid jump
-            if (cursors.up.isDown && this.bosskid.body.onFloor()) {
-                // Set vertical velocity to make the bosskid jump
-                this.bosskid.setVelocityY(-10000); // Adjust the value based on your needs
+
+            // Check for jumping when up arrow is pressed 
+            if (cursors.up.isDown && !this.jumping) {
+                this.jumping = true;
+                //set Vertical Velocity
+                this.bosskid.setVelocityY(-1200) //Adjust if needed
+                console.log(this.bosskid.x)
+                console.log(this.grandma.x)
+            } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
+                this.jumping = false;
             }
 
             // Check for shooting when spacebar is pressed
@@ -156,25 +186,48 @@ class BossLevel extends Phaser.Scene {
             // If player movement is not allowed, set velocity to zero
             this.bosskid.setVelocity(0, 0);
         }
-    
-        // Move the grandma towards the kid
-        const grandmaSpeed = 50; // You can adjust the speed as needed
-    
+        /*
+        //accelerate Grandma over time
+        const grandmaAcceleration = 10; //adjust
+        this.grandma.setVelocityX(this.grandma.body.velocity.x + grandmaAcceleration); 
+
+        // Calculate the angle between the grandma and kid
         const deltaX = this.bosskid.x - this.grandma.x;
         const deltaY = this.bosskid.y - this.grandma.y;
-    
-        // Calculate the angle between the grandma and kid
         const angle = Math.atan2(deltaY, deltaX);
-    
-        // Set grandma velocity based on the angle
-        this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed);
+
+        // Set Grandma velocity based on the angle and updated speed
+        const grandmaSpeed = 50; //adjust if need
+        this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
-    
-        // Face the grandma in the direction of movement
+        */
+        //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
-            this.grandma.setFlipX(false); // Face right
-        } else {
-            this.grandma.setFlipX(true); // Face left
+            this.grandma.setFlipX(false); //face right
+            this.grandma.setVelocityX(50);
+        } else if (this.bosskid.x < this.grandma.x) {
+            this.grandma.setFlipX(true); //face left
+            this.grandma.setVelocityX(-50);
+        }else{
+            this.grandma.setVelocityX(0);
+        }
+
+        //Prevent Grandma from moving off screen
+        const minX = 0; 
+        const maxX = this.game.config.width; 
+        const minY = 0; 
+        const maxY = this.game.config.height;  
+
+        if (this.grandma.x < minX) {
+            this.grandma.setX(minX); 
+        } else if (this.grandma.x > maxX) {
+            this.grandma.setX(maxX); 
+        }
+
+        if (this.grandma.y < minY) {
+            this.grandma.setY(minY); 
+        } else if (this.grandma.y > maxY) {
+            this.grandma.setY(maxY); 
         }
     }
 
@@ -191,7 +244,7 @@ class BossLevel extends Phaser.Scene {
             // Hide the kidskate sprite
             this.bosskid.setVisible(false);
 
-            this.sound.play('kissy', { rate: 3 });
+            this.sound.play('kissy', { rate: 2 });
     
             this.allowPlayerMovement = false;
             this.gameOver = true;
