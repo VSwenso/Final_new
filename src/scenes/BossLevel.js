@@ -6,7 +6,7 @@ class BossLevel extends Phaser.Scene {
 
         this.allowedArea = {
             x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
-            y: { min: 150, max: 255  },  // Adjust these values based on your allowed area
+            y: { min: 250, max: 455  },  // Adjust these values based on your allowed area
         };
     }
 
@@ -56,20 +56,14 @@ class BossLevel extends Phaser.Scene {
     //Physics World Gravity (aka get Kid to jump)
     this.physics.world.gravity.y = 1000; //may need to adjust value LATER
 
-
     // Add the bosskid sprite and set its initial position
-    this.bosskid = this.physics.add.sprite(-700, 200, 'bosskid').setOrigin(-1.75, 0.5);
+    this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
     //spawn position on left
     //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
     this.bosskid.setScale(3.5);
     this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
     this.bosskid.setCollideWorldBounds(true);
     this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
-    //Adjust the y coordinate of the allowed area to set floor constraints
-    this.allowedArea = {
-        x: { min: -300, max: 850 }, 
-        y: { min: 150, max: 350 }
-    };
 
      // Add the grandma sprite and set its initial position on the right side
      this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
@@ -128,7 +122,7 @@ class BossLevel extends Phaser.Scene {
     // New method to handle game reset
     resetGame() {
         // Reset player and grandma positions
-        this.bosskid.setPosition(-700, 250);
+        this.bosskid.setPosition(100, 300);
         this.grandma.setPosition(100, 300);
 
         // Show the kidskate sprite
@@ -197,8 +191,6 @@ class BossLevel extends Phaser.Scene {
         const grandmaSpeed = 50; //adjust if need
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
-        this.grandma.setVelocityX(grandmaVelocityX); //new add
-        this.grandma.setVelocityY(grandmaVelocityY); //new add
 
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
@@ -223,13 +215,6 @@ class BossLevel extends Phaser.Scene {
             this.grandma.setY(minY); 
         } else if (this.grandma.y > maxY) {
             this.grandma.setY(maxY); 
-        }
-
-        // Face the grandma in the direction of movement
-        if (this.bosskid.x > this.grandma.x) {
-            this.grandma.setFlipX(false); // Face right
-        } else {
-            this.grandma.setFlipX(true); // Face left
         }
     }
 
