@@ -183,19 +183,16 @@ class BossLevel extends Phaser.Scene {
             this.bosskid.setVelocity(0, 0);
         }
     
-        // Move the grandma towards the kid
-        const grandmaSpeed = 50; // You can adjust the speed as needed
-    
+        // Calculate the angle between the grandma and kid
         const deltaX = this.bosskid.x - this.grandma.x;
         const deltaY = this.bosskid.y - this.grandma.y;
-    
-        // Calculate the angle between the grandma and kid
         const angle = Math.atan2(deltaY, deltaX);
-    
-        // Set grandma velocity based on the angle
-        this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed);
-        this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
 
+        // Set Grandma velocity based on the angle 
+        const grandmaSpeed = 50; // You can adjust the speed as needed
+        this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
+        this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
+        
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); //face right
@@ -215,7 +212,7 @@ class BossLevel extends Phaser.Scene {
             this.grandma.setX(maxX); 
         }
 
-        if (this.grandma.x < minY) {
+        if (this.grandma.y < minY) {
             this.grandma.setY(minY); 
         } else if (this.grandma.y > maxY) {
             this.grandma.setY(maxY); 
