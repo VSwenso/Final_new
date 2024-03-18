@@ -118,9 +118,9 @@ class BossLevel extends Phaser.Scene {
         //check if the Game-over condition is met
         this.timer = setTimeout(() => {
             if (!this.gameOver) {
-                this.scene.start('winner'); 
+                this.scene.start('WinScreen'); 
             }
-        }, 35000); //35 second level length 
+        }, 1000); //35(35000) second level length 
     }
 
 
