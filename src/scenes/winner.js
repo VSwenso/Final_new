@@ -19,7 +19,7 @@ class winner extends Phaser.Scene {
         this.sound.stopAll();
         
         //set background 
-        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'winnerback').setOrigin(0, 0);
+        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'GameOverBack').setOrigin(0, 0);
 
         this.GOmusic = this.sound.add('GOmusic', { loop: true });
         this.GOmusic.play();
