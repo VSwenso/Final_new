@@ -101,7 +101,7 @@ class BossLevel extends Phaser.Scene {
  
      this.grandma.anims.play('move-play');
      this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
-     this.grandma.setVelocityX(-50); // Set initial velocity towards the kid sprite
+     this.grandma.setVelocityX(0); // Set initial velocity towards the kid sprite
      //this.grandma.setAccelerationX(5);
  
      // Add collision event
@@ -199,9 +199,11 @@ class BossLevel extends Phaser.Scene {
         if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); //face right
             this.grandma.setVelocityX(50);
-        } else {
+        } else if (this.bosskid.x < this.grandma.x) {
             this.grandma.setFlipX(true); //face left
             this.grandma.setVelocityX(-50);
+        }else{
+            this.grandma.setVelocityX(0);
         }
 
         //Prevent Grandma from moving off screen
@@ -236,7 +238,7 @@ class BossLevel extends Phaser.Scene {
             // Hide the kidskate sprite
             this.bosskid.setVisible(false);
 
-            this.sound.play('kissy', { rate: 3 });
+            this.sound.play('kissy', { rate: 2 });
     
             this.allowPlayerMovement = false;
             this.gameOver = true;
