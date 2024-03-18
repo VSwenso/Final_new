@@ -6,7 +6,7 @@ class BossLevel extends Phaser.Scene {
 
         this.allowedArea = {
             x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
-            y: { min: 150 , max: 255  }  // Adjust these values based on your allowed area
+            y: { min: 50 , max: 150  }  // Adjust these values based on your allowed area
         };
     }
 
@@ -54,7 +54,7 @@ class BossLevel extends Phaser.Scene {
     this.startTimer();
 
     //Physics World Gravity (aka get Kid to jump)
-    this.physics.world.gravity.y = 1000; //may need to adjust value 
+    this.physics.world.gravity.y = 1000; //may need to adjust value LATER
 
 
     // Add the bosskid sprite and set its initial position
@@ -68,7 +68,7 @@ class BossLevel extends Phaser.Scene {
     //Adjust the y coordinate of the allowed area to set floor constraints
     this.allowedArea = {
         x: { min: -300, max: 850 }, 
-        y: { min: 150, max: 350 }
+        y: { min: 50, max: 150 }
     };
 
      // Add the grandma sprite and set its initial position on the right side
@@ -197,8 +197,8 @@ class BossLevel extends Phaser.Scene {
         const grandmaSpeed = 50; //adjust if need
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
-        this.grandma.setVelocityX(grandmaVelocityX);
-        this.grandma.setVelocityY(grandmaVelocityY);
+        this.grandma.setVelocityX(grandmaVelocityX); //new add
+        this.grandma.setVelocityY(grandmaVelocityY); //new add
 
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
