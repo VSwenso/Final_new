@@ -50,6 +50,9 @@ class BossLevel extends Phaser.Scene {
 
     create() {
 
+    // Define Constants
+
+    
     this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
     this.startTimer();
 
@@ -177,7 +180,7 @@ class BossLevel extends Phaser.Scene {
             // If player movement is not allowed, set velocity to zero
             this.bosskid.setVelocity(0, 0);
         }
-
+        /*
         //accelerate Grandma over time
         const grandmaAcceleration = 10; //adjust
         this.grandma.setVelocityX(this.grandma.body.velocity.x + grandmaAcceleration); 
@@ -191,12 +194,14 @@ class BossLevel extends Phaser.Scene {
         const grandmaSpeed = 50; //adjust if need
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
-
+        */
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); //face right
+            this.grandma.setVelocityX(50);
         } else {
             this.grandma.setFlipX(true); //face left
+            this.grandma.setVelocityX(-50);
         }
 
         //Prevent Grandma from moving off screen
