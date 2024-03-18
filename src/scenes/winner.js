@@ -36,10 +36,6 @@ class winner extends Phaser.Scene {
                 bottom: 10,
             },
         };
-        this.add.text(this.scale.width / 2, this.scale.height / 2 + 150, 'You Were Caught!', gameOverTextConfig)
-            .setOrigin(0.5)
-            .setDepth(1);
-    
         // Display "Press SpaceBar to Play again!" text
         let playAgainTextConfig = {
             fontFamily: 'Helvetica', 
@@ -57,7 +53,6 @@ class winner extends Phaser.Scene {
         allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 
-        allSprites.anims.play('move');
         allSprites.setScale(-2, 2); // Set the X-axis scale to -2
 
         // Wrap around the screen
