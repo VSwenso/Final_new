@@ -6,7 +6,7 @@ class BossLevel extends Phaser.Scene {
 
         this.allowedArea = {
             x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
-            y: { min: 50 , max: 150  }  // Adjust these values based on your allowed area
+            y: { min: 150 , max: 255  }  // Adjust these values based on your allowed area
         };
     }
 
@@ -68,7 +68,7 @@ class BossLevel extends Phaser.Scene {
     //Adjust the y coordinate of the allowed area to set floor constraints
     this.allowedArea = {
         x: { min: -300, max: 850 }, 
-        y: { min: 50, max: 150 }
+        y: { min: 150, max: 255 }
     };
 
      // Add the grandma sprite and set its initial position on the right side
