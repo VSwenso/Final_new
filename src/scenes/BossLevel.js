@@ -184,6 +184,10 @@ class BossLevel extends Phaser.Scene {
             this.bosskid.setVelocity(0, 0);
         }
 
+        //accelerate Grandma over time
+        const grandmaAcceleration = 10; //adjust
+        this.grandma.setVelocityX(this.grandma.body.velocity.x + grandmaAcceleration); 
+
         // Calculate the angle between the grandma and kid
         const deltaX = this.bosskid.x - this.grandma.x;
         const deltaY = this.bosskid.y - this.grandma.y;
