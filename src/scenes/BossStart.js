@@ -5,7 +5,7 @@ class BossStart extends Phaser.Scene {
     }
 
 preload() {
-    this.load.image('TutBoss', './assets/UpdatedBossTut.png')
+    this.load.image('TutBoss', './assets/TutScreenBoss.png')
     this.load.audio('bossmusic', './assets/sounds/BossBattleLoop.mp3')
 }
 
