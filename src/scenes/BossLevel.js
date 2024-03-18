@@ -60,7 +60,7 @@ class BossLevel extends Phaser.Scene {
         this.physics.world.gravity.y = 1200; //may need to adjust value LATER
 
         // Add the bosskid sprite and set its initial position
-        this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
+        this.bosskid = this.physics.add.sprite(100, 450, 'bosskid').setOrigin(-1.75, 0.5);
         //spawn position on left
         //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
         this.bosskid.setScale(3.5);
@@ -69,7 +69,7 @@ class BossLevel extends Phaser.Scene {
         this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
 
         // Add the grandma sprite and set its initial position on the right side
-        this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
+        this.grandma = this.physics.add.sprite(this.game.config.width - 100, 450, 'allsprites').setOrigin(0.25, 0.5);
         this.physics.world.enable(this.grandma);
         this.grandma.body.setCollideWorldBounds(true); 
         this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
