@@ -7,10 +7,6 @@ class winner extends Phaser.Scene {
     preload() {
         this.load.image('winnerback', './assets/winscreen.png')
         //Load sprites
-        this.load.spritesheet('allSprites', './assets/allSprites.png', {
-            frameWidth: 75,
-            frameHeight: 80  
-        });
         this.load.audio('GOmusic', './assets/sounds/GameOver.mp3')
     }
 
@@ -36,6 +32,7 @@ class winner extends Phaser.Scene {
                 bottom: 10,
             },
         };
+        
         // Display "Press SpaceBar to Play again!" text
         let playAgainTextConfig = {
             fontFamily: 'Helvetica', 
@@ -53,6 +50,7 @@ class winner extends Phaser.Scene {
         allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 
+        allSprites.anims.play('move');
         allSprites.setScale(-2, 2); // Set the X-axis scale to -2
 
         // Wrap around the screen
