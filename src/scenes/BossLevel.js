@@ -105,6 +105,7 @@ class BossLevel extends Phaser.Scene {
      this.grandma.anims.play('move-play');
      this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
      this.grandma.setVelocityX(-50); // Set initial velocity towards the kid sprite
+     //this.grandma.setAccelerationX(5);
  
      // Add collision event
      this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
