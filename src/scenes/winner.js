@@ -46,6 +46,7 @@ class winner extends Phaser.Scene {
         };
 
         // Animation from 'allsprites' sprite sheet
+        let allSprites = this.physics.add.sprite(100, this.scale.height / 2);
         allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 
