@@ -5,7 +5,7 @@ class BossLevel extends Phaser.Scene {
         this.allowPlayerMovement = true;
 
         this.allowedArea = {
-            x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
+            x: { min: -100, max: 850  }, // Adjust these values based on your allowed area
             y: { min: 350 , max: 455  }  // Adjust these values based on your allowed area
         };
     }
