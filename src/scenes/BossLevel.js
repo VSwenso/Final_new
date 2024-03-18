@@ -49,69 +49,68 @@ class BossLevel extends Phaser.Scene {
     }
 
     create() {
-
     // Define Constants
-    console.log("started")
+        console.log("started")
 
     
-    this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
-    this.startTimer();
+        this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
+        this.startTimer();
 
-    //Physics World Gravity (aka get Kid to jump)
-    this.physics.world.gravity.y = 1000; //may need to adjust value LATER
+        //Physics World Gravity (aka get Kid to jump)
+        this.physics.world.gravity.y = 1200; //may need to adjust value LATER
 
-    // Add the bosskid sprite and set its initial position
-    this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
-    //spawn position on left
-    //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
-    this.bosskid.setScale(3.5);
-    this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
-    this.bosskid.setCollideWorldBounds(true);
-    this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
+        // Add the bosskid sprite and set its initial position
+        this.bosskid = this.physics.add.sprite(-700, 450, 'bosskid').setOrigin(-1.75, 0.5);
+        //spawn position on left
+        //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
+        this.bosskid.setScale(3.5);
+        this.physics.world.enable(this.bosskid); // Make sure to enable physics for bosskid
+        this.bosskid.setCollideWorldBounds(true);
+        this.bosskid.body.setSize(25, 30); // Adjust the width and height as needed
 
-     // Add the grandma sprite and set its initial position on the right side
-     this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
-     this.physics.world.enable(this.grandma);
-     this.grandma.body.setCollideWorldBounds(true); 
-     this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
-     this.grandma.body.setOffset(50, 20);
+        // Add the grandma sprite and set its initial position on the right side
+        this.grandma = this.physics.add.sprite(700, 450, 'allsprites').setOrigin(0.25, 0.5);
+        this.physics.world.enable(this.grandma);
+        this.grandma.body.setCollideWorldBounds(true); 
+        this.grandma.body.setSize(40, 50); // Adjust the width and height as needed
+        this.grandma.body.setOffset(50, 20);
  
-     // Animation and scaling for the grandma sprite
-     this.anims.create({
-         key: 'move-play',
-         frames: this.anims.generateFrameNumbers('allsprites', { start: 0, end: 1 }),
-         frameRate: 5,
-         repeat: -1,
-     });
+        // Animation and scaling for the grandma sprite
+        this.anims.create({
+            key: 'move-play',
+            frames: this.anims.generateFrameNumbers('allsprites', { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1,
+        });
 
-    // Add animation for bosskid moving left
-    this.anims.create({
-        key: 'bosskid-left',
-        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
-        frameRate: 15 ,
-        repeat: -1,
-    });
+        // Add animation for bosskid moving left
+        this.anims.create({
+            key: 'bosskid-left',
+            frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+            frameRate: 15 ,
+            repeat: -1,
+        });
 
-    // Add animation for bosskid moving right
-    this.anims.create({
-        key: 'bosskid-right',
-        frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
-        frameRate: 15,
-        repeat: -1,
-    });
+        // Add animation for bosskid moving right
+        this.anims.create({
+            key: 'bosskid-right',
+            frames: this.anims.generateFrameNumbers('bosskid', { start: 0, end: 3 }),
+            frameRate: 15,
+            repeat: -1,
+        });
  
-     this.grandma.anims.play('move-play');
-     this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
-     this.grandma.setVelocityX(0); // Set initial velocity towards the kid sprite
-     //this.grandma.setAccelerationX(5);
+        this.grandma.anims.play('move-play');
+        this.grandma.setScale(-3.25 , 3.25); // Set the X-axis scale to -2
+        this.grandma.setVelocityX(0); // Set initial velocity towards the kid sprite
+        //this.grandma.setAccelerationX(5);
  
-     // Add collision event
-     this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
+        // Add collision event
+        this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
 
-    // Create a group for projectiles
-    this.projectiles = this.physics.add.group();
+        // Create a group for projectiles
+        this.projectiles = this.physics.add.group();
 
- }
+    }
 
     startTimer() {
         //check if the Game-over condition is met
