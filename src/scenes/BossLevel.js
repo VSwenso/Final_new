@@ -51,6 +51,7 @@ class BossLevel extends Phaser.Scene {
     create() {
 
     // Define Constants
+    console.log("started")
 
     
     this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
