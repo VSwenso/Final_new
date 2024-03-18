@@ -141,7 +141,7 @@ class BossLevel extends Phaser.Scene {
                 this.scene.start('winner'); 
                 this.resetGame();
             }
-        }, 1000); //35(35000) second level length 
+        }, 10000); //35(35000) second level length 
     }
 
     update() {
