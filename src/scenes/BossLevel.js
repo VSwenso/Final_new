@@ -193,9 +193,6 @@ class BossLevel extends Phaser.Scene {
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed); 
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
 
-        //Increase grandma's velocity over time
-        this.grandmaSpeed += this.grandmaAcceleration
-        
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
             this.grandma.setFlipX(false); //face right
