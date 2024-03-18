@@ -7,10 +7,7 @@ class winner extends Phaser.Scene {
     preload() {
         this.load.image('winnerback', './assets/winscreen.png')
         //Load sprites
-        this.load.spritesheet('allSprites', './assets/allSprites.png', {
-            frameWidth: 75,
-            frameHeight: 80  
-        });
+       
         this.load.audio('GOmusic', './assets/sounds/GameOver.mp3')
     }
 
