@@ -5,8 +5,8 @@ class BossLevel extends Phaser.Scene {
         this.allowPlayerMovement = true;
 
         this.allowedArea = {
-            x: { min: -100, max: 850  }, // Adjust these values based on your allowed area
-            y: { min: 350 , max: 455  }  // Adjust these values based on your allowed area
+            x: { min: -300, max: 850  }, // Adjust these values based on your allowed area
+            y: { min: 150 , max: 255  }  // Adjust these values based on your allowed area
         };
     }
 
@@ -58,7 +58,7 @@ class BossLevel extends Phaser.Scene {
 
 
     // Add the bosskid sprite and set its initial position
-    this.bosskid = this.physics.add.sprite(-700, 250, 'bosskid').setOrigin(-1.75, 0.5);
+    this.bosskid = this.physics.add.sprite(-700, 200, 'bosskid').setOrigin(-1.75, 0.5);
     //spawn position on left
     //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
     this.bosskid.setScale(3.5);
@@ -68,7 +68,7 @@ class BossLevel extends Phaser.Scene {
     //Adjust the y coordinate of the allowed area to set floor constraints
     this.allowedArea = {
         x: { min: -300, max: 850 }, 
-        y: { min: 150, max: 355 }
+        y: { min: 150, max: 255 }
     };
 
      // Add the grandma sprite and set its initial position on the right side
