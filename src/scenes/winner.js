@@ -7,7 +7,10 @@ class winner extends Phaser.Scene {
     preload() {
         this.load.image('winnerback', './assets/winscreen.png')
         //Load sprites
-       
+        this.load.spritesheet('allSprites', './assets/allSprites.png', {
+            frameWidth: 75,
+            frameHeight: 80  
+        });
         this.load.audio('GOmusic', './assets/sounds/GameOver.mp3')
     }
 
@@ -46,6 +49,7 @@ class winner extends Phaser.Scene {
         };
 
         // Animation from 'allsprites' sprite sheet
+        let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
         allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 
