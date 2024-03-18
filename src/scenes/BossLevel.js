@@ -127,7 +127,7 @@ class BossLevel extends Phaser.Scene {
     // New method to handle game reset
     resetGame() {
         // Reset player and grandma positions
-        this.bosskid.setPosition(100, 300);
+        this.bosskid.setPosition(-700, 250);
         this.grandma.setPosition(100, 300);
 
         // Show the kidskate sprite
@@ -195,6 +195,13 @@ class BossLevel extends Phaser.Scene {
         // Set grandma velocity based on the angle
         this.grandma.setVelocityX(Math.cos(angle) * grandmaSpeed);
         this.grandma.setVelocityY(Math.sin(angle) * grandmaSpeed);
+
+        //Face Grandma in Direction of movement
+        if (this.bosskid.x > this.grandma.x) {
+            this.grandma.setFlipX(false); //face right
+        } else {
+            this.grandma.setFlipX(true); //face left
+        }
 
         //Prevent Grandma from moving off screen
         const minX = 0; 
