@@ -60,7 +60,7 @@ class BossLevel extends Phaser.Scene {
         this.physics.world.gravity.y = 1200; //may need to adjust value LATER
 
         // Add the bosskid sprite and set its initial position
-        this.bosskid = this.physics.add.sprite(300, 150, 'bosskid').setOrigin(-1.75,0.5)
+        this.bosskid = this.physics.add.sprite(-300, 150, 'bosskid').setOrigin(-1.75,0.5)
         //spawn position on left
         //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
         this.bosskid.setScale(3.5);
@@ -118,7 +118,10 @@ class BossLevel extends Phaser.Scene {
         //check if the Game-over condition is met
         this.timer = setTimeout(() => {
             if (!this.gameOver) {
+                this.resetGame();
+
                 this.scene.start('WinScreen'); 
+
             }
         }, 1000); //35(35000) second level length 
     }
