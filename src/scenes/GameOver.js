@@ -53,15 +53,15 @@ class GameOver extends Phaser.Scene {
         };
 
         // Animation from 'allsprites' sprite sheet
-        //let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
-        //allSprites.setVelocityX(44); // Set initial velocity along X-axis
+        let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
+        allSprites.setVelocityX(44); // Set initial velocity along X-axis
 
 
-        //allSprites.anims.play('move');
-        //allSprites.setScale(-2, 2); // Set the X-axis scale to -2
-        //git behind so dummy push #2
+        allSprites.anims.play('move');
+        allSprites.setScale(-2, 2); // Set the X-axis scale to -2
+        
         // Wrap around the screen
-        //this.physics.world.wrap(allSprites); 
+        this.physics.world.wrap(allSprites); 
         this.add.text(this.scale.width / 2, this.scale.height / 2 + 225, 'Press [R] to Play again!', playAgainTextConfig)
             .setOrigin(0.5)
             .setDepth(1);
