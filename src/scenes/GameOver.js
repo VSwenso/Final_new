@@ -59,7 +59,7 @@ class GameOver extends Phaser.Scene {
 
         //allSprites.anims.play('move');
         //allSprites.setScale(-2, 2); // Set the X-axis scale to -2
-        //git behind so dummy push
+        //git behind so dummy push #2
         // Wrap around the screen
         //this.physics.world.wrap(allSprites); 
         this.add.text(this.scale.width / 2, this.scale.height / 2 + 225, 'Press [R] to Play again!', playAgainTextConfig)
