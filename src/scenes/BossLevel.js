@@ -207,7 +207,7 @@ class BossLevel extends Phaser.Scene {
         */
         //Face Grandma in Direction of movement
         if (this.bosskid.x > this.grandma.x) {
-            this.grandma.setFlipX(true); //face right
+            this.grandma.setFlipX(false); //face right
             this.grandma.setVelocityX(50);
         } else if (this.bosskid.x < this.grandma.x) {
             this.grandma.setFlipX(true); //face left
@@ -238,7 +238,7 @@ class BossLevel extends Phaser.Scene {
     startTimer2(){
         this.timer = setTimeout(() => {
             if (this.bosskid.x > this.grandma.x) {
-                this.grandma.setFlipX(true); //face right
+                this.grandma.setFlipX(false); //face right
                 this.grandma.setVelocityX(1000);
             } else if (this.bosskid.x < this.grandma.x) {
                 this.grandma.setFlipX(true); //face left
