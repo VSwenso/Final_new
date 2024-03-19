@@ -55,12 +55,14 @@ class BossLevel extends Phaser.Scene {
     
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
         this.startTimer();
+        this.startTimer2();
+
 
         //Physics World Gravity (aka get Kid to jump)
         this.physics.world.gravity.y = 1200; //may need to adjust value LATER
 
         // Add the bosskid sprite and set its initial position
-        this.bosskid = this.physics.add.sprite(-300, -150, 'bosskid').setOrigin(-1.75,0.5)
+        this.bosskid = this.physics.add.sprite(-300, -150, 'bosskid').setOrigin(0.25,0.5)
         //spawn position on left
         //this.bosskid.setPosition(100, Phaser.Math.Between(this.allowedArea.y.min, this.allowedArea.y.max));
         this.bosskid.setScale(3.5);
@@ -111,6 +113,8 @@ class BossLevel extends Phaser.Scene {
         this.projectiles = this.physics.add.group();
         console.log("////")
         console.log(this.bosskid.x)
+        this.time.delayedCall(1000, this.increaseGrandmaVelocity, [], this);
+
 
     }
 
@@ -132,16 +136,20 @@ class BossLevel extends Phaser.Scene {
         // Reset flags and variables
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
+        clearTimeout(this.timer); // Clear the timer using the stored timeout ID
+
 
     }
     startTimer() {
         //check if the Game-over condition is met
+        
+    
         this.timer = setTimeout(() => {
             if (!this.gameOver) {
                 this.scene.start('winner'); 
                 this.resetGame();
             }
-        }, 5000); //35(35000) second level length 
+        }, 10000); //35(35000) second level length 
     }
 
     update() {
@@ -168,7 +176,7 @@ class BossLevel extends Phaser.Scene {
             if (cursors.up.isDown && !this.jumping) {
                 this.jumping = true;
                 //set Vertical Velocity
-                this.bosskid.setVelocityY(-1200) //Adjust if needed
+                this.bosskid.setVelocityY(-950) //(-1200)Adjust if needed
                 console.log(this.bosskid.x)
                 console.log(this.grandma.x)
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
@@ -212,6 +220,7 @@ class BossLevel extends Phaser.Scene {
             this.grandma.setVelocityX(0);
         }
 
+
         //Prevent Grandma from moving off screen
         const minX = 0; 
         const maxX = this.game.config.width; 
@@ -229,8 +238,35 @@ class BossLevel extends Phaser.Scene {
         } else if (this.grandma.y > maxY) {
             this.grandma.setY(maxY); 
         }
-    }
+        //speed grandma after 7 seconds
+            this.timer = setTimeout(() => {
+                if (this.bosskid.x > this.grandma.x) {
+                    this.grandma.setFlipX(true); //face right
+                    this.grandma.setVelocityX(150);
+                } else if (this.bosskid.x < this.grandma.x) {
+                    this.grandma.setFlipX(false); //face left
+                    this.grandma.setVelocityX(-150);
+                }else{
+                    this.grandma.setVelocityX(0);
+                }
 
+            }, 1000);
+        
+    }
+    startTimer2(){
+        this.timer = setTimeout(() => {
+            if (this.bosskid.x > this.grandma.x) {
+                this.grandma.setFlipX(true); //face right
+                this.grandma.setVelocityX(150);
+            } else if (this.bosskid.x < this.grandma.x) {
+                this.grandma.setFlipX(false); //face left
+                this.grandma.setVelocityX(-150);
+            }else{
+                this.grandma.setVelocityX(0);
+            }
+        },1000);
+
+    }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
         projectile.destroy(); // Destroy the projectile on collision
