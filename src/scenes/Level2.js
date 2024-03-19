@@ -117,7 +117,7 @@ class Level2 extends Phaser.Scene {
             if (!this.gameOver) {
                 this.scene.start('BossStart'); // Replace 'SceneStart2' with the actual key of your next scene
             }
-        }, 1000); // 45(45000) seconds in milliseconds
+        }, 45000); // 45(45000) seconds in milliseconds
     }
 
 
@@ -291,18 +291,18 @@ class Level2 extends Phaser.Scene {
         
             // Transition to the GameOver scene
             this.scene.start('GameOver');
-        } else {
+        //} else {
             // If the obstacle is not a GrannyCat, play the kid's crash animation
-            this.kidskate.play('kidCrash');
+            //this.kidskate.play('kidCrash');
         
             // After the crash animation is done, transition to the GameOver scene
-            this.kidskate.once('animationcomplete', () => {
+            //this.kidskate.once('animationcomplete', () => {
                 // Reset the game state
-                this.resetGame();
+            this.resetGame();
         
                 // Transition to the GameOver scene
-                this.scene.start('GameOver');
-            });
+            this.scene.start('GameOver');
+            //});
         }
     }
 }

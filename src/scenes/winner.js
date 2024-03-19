@@ -45,6 +45,9 @@ class winner extends Phaser.Scene {
             },
         };
 
+        this.add.text(game.config.width / 2, game.config.height -100, 'Credits:\nSound effects and scene assets by Kaylie Lepley and Tory Swenson \nPlay music by:https://pixabay.com/sound-effects/rekintudu-27867/').setOrigin(0.5, 0.8);
+
+
         // Animation from 'allsprites' sprite sheet
         //let allSprites = this.physics.add.sprite(100, this.scale.height / 2, 'allSprites');
         //allSprites.setVelocityX(44); // Set initial velocity along X-axis

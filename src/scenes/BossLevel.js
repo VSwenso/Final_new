@@ -18,7 +18,7 @@ class BossLevel extends Phaser.Scene {
     preload() {
         // Load background
         this.load.image('BossBack', './assets/BossBack.png');
-        this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
+        //this.load.image('projectileKey', './assets/projectile.png'); // Adjust the key and file path accordingly
         this.load.image('WinScreen', './assets/winscreen.png'); //winscreen
 
 
@@ -32,20 +32,6 @@ class BossLevel extends Phaser.Scene {
             frameWidth: 75,
             frameHeight: 80  
         });
-    }
-
-    shootProjectile() {
-        const projectile = this.physics.add.sprite(this.bosskid.x, this.bosskid.y, 'projectileKey'); // Adjust 'projectileKey' to your actual key
-        projectile.setScale(1); // Adjust the scale as needed
-        this.physics.world.enable(projectile);
-        projectile.setVelocityX(1000); // Adjust the projectile speed
-        projectile.setCollideWorldBounds(true);
-    
-        // Add collision event for the projectile
-        this.physics.add.collider(projectile, this.grandma, this.handleProjectileCollision, null, this);
-    
-        // Add projectile to the group
-        this.projectiles.add(projectile);
     }
 
     create() {
@@ -110,7 +96,7 @@ class BossLevel extends Phaser.Scene {
         this.physics.add.collider(this.bosskid, this.grandma, this.handleCollision, null, this);
 
         // Create a group for projectiles
-        this.projectiles = this.physics.add.group();
+        //this.projectiles = this.physics.add.group();
         console.log("////")
         console.log(this.bosskid.x)
         this.time.delayedCall(1000, this.increaseGrandmaVelocity, [], this);
@@ -181,11 +167,6 @@ class BossLevel extends Phaser.Scene {
                 console.log(this.grandma.x)
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
                 this.jumping = false;
-            }
-
-            // Check for shooting when spacebar is pressed
-            if (cursors.space.isDown) {
-                this.shootProjectile();
             }
  
             // Check for collision
@@ -267,10 +248,10 @@ class BossLevel extends Phaser.Scene {
         },1000);
 
     }
-    handleProjectileCollision(projectile, grandma) {
-        // Add logic for what happens when a projectile collides with another sprite
-        projectile.destroy(); // Destroy the projectile on collision
-    }
+    // handleProjectileCollision(projectile, grandma) {
+    //     // Add logic for what happens when a projectile collides with another sprite
+    //     projectile.destroy(); // Destroy the projectile on collision
+    // }
     
     handleCollision() {
         if (!this.gameOver) {
