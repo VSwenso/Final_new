@@ -111,6 +111,8 @@ class BossLevel extends Phaser.Scene {
         this.projectiles = this.physics.add.group();
         console.log("////")
         console.log(this.bosskid.x)
+        this.time.delayedCall(1000, this.increaseGrandmaVelocity, [], this);
+
 
     }
 
@@ -136,6 +138,8 @@ class BossLevel extends Phaser.Scene {
     }
     startTimer() {
         //check if the Game-over condition is met
+        
+    
         this.timer = setTimeout(() => {
             if (!this.gameOver) {
                 this.scene.start('winner'); 
@@ -212,6 +216,7 @@ class BossLevel extends Phaser.Scene {
             this.grandma.setVelocityX(0);
         }
 
+
         //Prevent Grandma from moving off screen
         const minX = 0; 
         const maxX = this.game.config.width; 
@@ -230,7 +235,20 @@ class BossLevel extends Phaser.Scene {
             this.grandma.setY(maxY); 
         }
     }
-
+    startTimer2(){
+        this.timer = setTimeout(() => {
+            if (this.bosskid.x > this.grandma.x) {
+                this.grandma.setFlipX(true); //face right
+                this.grandma.setVelocityX(200);
+            } else if (this.bosskid.x < this.grandma.x) {
+                this.grandma.setFlipX(true); //face left
+                this.grandma.setVelocityX(-200);
+            }else{
+                this.grandma.setVelocityX(0);
+            }
+    
+        }, 1000);
+    }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
         projectile.destroy(); // Destroy the projectile on collision
