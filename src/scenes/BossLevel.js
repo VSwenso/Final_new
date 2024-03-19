@@ -136,17 +136,7 @@ class BossLevel extends Phaser.Scene {
         this.backgroundScrolling = true;
 
     }
-    startTimer() {
-        //check if the Game-over condition is met
-        
     
-        this.timer = setTimeout(() => {
-            if (!this.gameOver) {
-                this.scene.start('winner'); 
-                this.resetGame();
-            }
-        }, 35000); //35(35000) second level length 
-    }
 
     update() {
         // Check if player movement is allowed
@@ -248,6 +238,17 @@ class BossLevel extends Phaser.Scene {
             }
     
         }, 5000);
+    }
+    startTimer() {
+        //check if the Game-over condition is met
+        
+    
+        this.timer = setTimeout(() => {
+            if (!this.gameOver) {
+                this.scene.start('winner'); 
+                this.resetGame();
+            }
+        }, 35000); //35(35000) second level length 
     }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
