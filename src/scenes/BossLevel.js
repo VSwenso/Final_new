@@ -239,10 +239,10 @@ class BossLevel extends Phaser.Scene {
         this.timer = setTimeout(() => {
             if (this.bosskid.x > this.grandma.x) {
                 this.grandma.setFlipX(true); //face right
-                this.grandma.setVelocityX(200);
+                this.grandma.setVelocityX(1000);
             } else if (this.bosskid.x < this.grandma.x) {
                 this.grandma.setFlipX(true); //face left
-                this.grandma.setVelocityX(-200);
+                this.grandma.setVelocityX(-1000);
             }else{
                 this.grandma.setVelocityX(0);
             }
