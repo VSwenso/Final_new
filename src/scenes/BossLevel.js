@@ -55,6 +55,8 @@ class BossLevel extends Phaser.Scene {
     
         this.runnerback = this.add.tileSprite(0, 0, 800, 600, 'BossBack').setOrigin(0, 0);
         this.startTimer();
+        this.startTimer2();
+
 
         //Physics World Gravity (aka get Kid to jump)
         this.physics.world.gravity.y = 1200; //may need to adjust value LATER
@@ -136,7 +138,17 @@ class BossLevel extends Phaser.Scene {
         this.backgroundScrolling = true;
 
     }
+    startTimer() {
+        //check if the Game-over condition is met
+        
     
+        this.timer = setTimeout(() => {
+            if (!this.gameOver) {
+                this.scene.start('winner'); 
+                this.resetGame();
+            }
+        }, 20000); //35(35000) second level length 
+    }
 
     update() {
         // Check if player movement is allowed
@@ -224,8 +236,22 @@ class BossLevel extends Phaser.Scene {
         } else if (this.grandma.y > maxY) {
             this.grandma.setY(maxY); 
         }
+        
+            this.timer = setTimeout(() => {
+                if (this.bosskid.x > this.grandma.x) {
+                    this.grandma.setFlipX(true); //face right
+                    this.grandma.setVelocityX(1000);
+                } else if (this.bosskid.x < this.grandma.x) {
+                    this.grandma.setFlipX(false); //face left
+                    this.grandma.setVelocityX(-1000);
+                }else{
+                    this.grandma.setVelocityX(0);
+                }
+        
+            }, 5000);
+        
     }
-    startTimer(){
+    startTimer2(){
         this.timer = setTimeout(() => {
             if (this.bosskid.x > this.grandma.x) {
                 this.grandma.setFlipX(true); //face right
@@ -238,17 +264,6 @@ class BossLevel extends Phaser.Scene {
             }
     
         }, 5000);
-    }
-    startTimer() {
-        //check if the Game-over condition is met
-        
-    
-        this.timer = setTimeout(() => {
-            if (!this.gameOver) {
-                this.scene.start('winner'); 
-                this.resetGame();
-            }
-        }, 35000); //35(35000) second level length 
     }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
