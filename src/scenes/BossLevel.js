@@ -176,7 +176,7 @@ class BossLevel extends Phaser.Scene {
             if (cursors.up.isDown && !this.jumping) {
                 this.jumping = true;
                 //set Vertical Velocity
-                this.bosskid.setVelocityY(-1000) //(-1200)Adjust if needed
+                this.bosskid.setVelocityY(-1100) //(-1200)Adjust if needed
                 console.log(this.bosskid.x)
                 console.log(this.grandma.x)
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
@@ -242,10 +242,10 @@ class BossLevel extends Phaser.Scene {
             this.timer = setTimeout(() => {
                 if (this.bosskid.x > this.grandma.x) {
                     this.grandma.setFlipX(true); //face right
-                    this.grandma.setVelocityX(1000);
+                    this.grandma.setVelocityX(150);
                 } else if (this.bosskid.x < this.grandma.x) {
                     this.grandma.setFlipX(false); //face left
-                    this.grandma.setVelocityX(-1000);
+                    this.grandma.setVelocityX(-150);
                 }else{
                     this.grandma.setVelocityX(0);
                 }
@@ -257,15 +257,15 @@ class BossLevel extends Phaser.Scene {
         this.timer = setTimeout(() => {
             if (this.bosskid.x > this.grandma.x) {
                 this.grandma.setFlipX(true); //face right
-                this.grandma.setVelocityX(1000);
+                this.grandma.setVelocityX(150);
             } else if (this.bosskid.x < this.grandma.x) {
                 this.grandma.setFlipX(false); //face left
-                this.grandma.setVelocityX(-1000);
+                this.grandma.setVelocityX(-150);
             }else{
                 this.grandma.setVelocityX(0);
             }
     
-        }, 5000);
+        }, 500);
     }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
