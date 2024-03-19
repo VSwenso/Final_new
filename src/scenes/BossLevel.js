@@ -136,6 +136,8 @@ class BossLevel extends Phaser.Scene {
         // Reset flags and variables
         this.allowPlayerMovement = true;
         this.backgroundScrolling = true;
+        clearTimeout(this.timer); // Clear the timer using the stored timeout ID
+
 
     }
     startTimer() {
