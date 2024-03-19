@@ -252,7 +252,6 @@ class BossLevel extends Phaser.Scene {
                 clearTimeout(this.timer); // Clear the timer using the stored timeout ID
 
             }, 7000);
-            clearTimeout(this.timer); // Clear the timer using the stored timeout ID
         
     }
     startTimer2(){
@@ -268,7 +267,6 @@ class BossLevel extends Phaser.Scene {
             }
             clearTimeout(this.timer); // Clear the timer using the stored timeout ID
         },7000);
-    clearTimeout(this.timer); // Clear the timer using the stored timeout ID
 
     }
     handleProjectileCollision(projectile, grandma) {
