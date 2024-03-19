@@ -174,7 +174,7 @@ class BossLevel extends Phaser.Scene {
             if (cursors.up.isDown && !this.jumping) {
                 this.jumping = true;
                 //set Vertical Velocity
-                this.bosskid.setVelocityY(-800) //(-1200)Adjust if needed
+                this.bosskid.setVelocityY(-1000) //(-1200)Adjust if needed
                 console.log(this.bosskid.x)
                 console.log(this.grandma.x)
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
@@ -248,7 +248,7 @@ class BossLevel extends Phaser.Scene {
                     this.grandma.setVelocityX(0);
                 }
         
-            }, 5000);
+            }, 1000);
         
     }
     startTimer2(){
