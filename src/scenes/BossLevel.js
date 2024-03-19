@@ -247,7 +247,7 @@ class BossLevel extends Phaser.Scene {
                 this.grandma.setVelocityX(0);
             }
     
-        }, 1000);
+        }, 5000);
     }
     handleProjectileCollision(projectile, grandma) {
         // Add logic for what happens when a projectile collides with another sprite
