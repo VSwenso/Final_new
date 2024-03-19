@@ -176,7 +176,7 @@ class BossLevel extends Phaser.Scene {
             if (cursors.up.isDown && !this.jumping) {
                 this.jumping = true;
                 //set Vertical Velocity
-                this.bosskid.setVelocityY(-1000) //(-1200)Adjust if needed
+                this.bosskid.setVelocityY(-950) //(-1200)Adjust if needed
                 console.log(this.bosskid.x)
                 console.log(this.grandma.x)
             } else if (cursors.up.isUp && this.bosskid.body.onFloor()) {
@@ -238,7 +238,7 @@ class BossLevel extends Phaser.Scene {
         } else if (this.grandma.y > maxY) {
             this.grandma.setY(maxY); 
         }
-        
+        //speed grandma after 7 seconds
             this.timer = setTimeout(() => {
                 if (this.bosskid.x > this.grandma.x) {
                     this.grandma.setFlipX(true); //face right
@@ -249,7 +249,8 @@ class BossLevel extends Phaser.Scene {
                 }else{
                     this.grandma.setVelocityX(0);
                 }
-        
+                clearTimeout(this.timer); // Clear the timer using the stored timeout ID
+
             }, 7000);
             clearTimeout(this.timer); // Clear the timer using the stored timeout ID
         
@@ -265,7 +266,7 @@ class BossLevel extends Phaser.Scene {
             }else{
                 this.grandma.setVelocityX(0);
             }
-    
+            clearTimeout(this.timer); // Clear the timer using the stored timeout ID
         },7000);
     clearTimeout(this.timer); // Clear the timer using the stored timeout ID
 
