@@ -249,7 +249,6 @@ class BossLevel extends Phaser.Scene {
                 }else{
                     this.grandma.setVelocityX(0);
                 }
-                clearTimeout(this.timer); // Clear the timer using the stored timeout ID
 
             }, 1000);
         
@@ -265,7 +264,6 @@ class BossLevel extends Phaser.Scene {
             }else{
                 this.grandma.setVelocityX(0);
             }
-            clearTimeout(this.timer); // Clear the timer using the stored timeout ID
         },1000);
 
     }
