@@ -266,7 +266,7 @@ class BossLevel extends Phaser.Scene {
                 this.grandma.setVelocityX(0);
             }
             clearTimeout(this.timer); // Clear the timer using the stored timeout ID
-        },7000);
+        },1000);
 
     }
     handleProjectileCollision(projectile, grandma) {
