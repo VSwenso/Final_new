@@ -251,7 +251,7 @@ class BossLevel extends Phaser.Scene {
                 }
                 clearTimeout(this.timer); // Clear the timer using the stored timeout ID
 
-            }, 7000);
+            }, 1000);
         
     }
     startTimer2(){
